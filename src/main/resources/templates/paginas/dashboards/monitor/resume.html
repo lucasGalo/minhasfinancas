@@ -1,0 +1,34 @@
+<div class="col-md-2">
+  <div class="info-box mb-3 bg-info">
+    <span class="info-box-icon"><i class="far fa-comment"></i></span>
+    <div class="info-box-content">
+      <span class="info-box-text">Lavando</span>
+      <span class="info-box-number" th:text="${single.allLavando.size}"></span>
+    </div>
+  </div>
+
+  <div class="info-box mb-3 bg-warning">
+    <span class="info-box-icon"><i class="fas fa-tag"></i></span>
+    <div class="info-box-content">
+      <span class="info-box-text">Retirar</span>
+      <span class="info-box-number" th:text="${single.allRetirar.size}"></span>
+    </div>
+  </div>
+
+  <div class="info-box mb-3 bg-success">
+    <span class="info-box-icon"><i class="far fa-heart"></i></span>
+    <div class="info-box-content">
+      <span class="info-box-text">Concluidos</span>
+      <span class="info-box-number" th:text="${single.allConcluido.size}"></span>
+    </div>
+  </div>
+
+  <div class="info-box mb-3 bg-danger">
+    <span class="info-box-icon"><i class="fas fa-trash"></i></span>
+    <div class="info-box-content">
+      <span class="info-box-text">Cancelados</span>
+      <span class="info-box-number" th:text="${single.allCancelado.size}"></span>
+    </div>
+  </div>
+
+</div>

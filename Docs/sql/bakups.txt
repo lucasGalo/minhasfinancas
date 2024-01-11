@@ -1,0 +1,4 @@
+https://elias.praciano.com/2013/07/como-fazer-backup-do-seu-banco-de-dados-mysql/
+
+comando de backups
+mysqldump -u root -p ambienteclean_hm > /home/ambiente-clean/backups11-12-2023.sql

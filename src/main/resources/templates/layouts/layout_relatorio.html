@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+>
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" th:href="@{/img/favicon/favicon.jpg}" sizes="any"/>
+    <title>Minhas | Finanças</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/fontawesome-free/css/all.min.css}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+    <!-- Select2 -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/select2/css/select2.min.css}">
+    <link rel="stylesheet" th:href="@{/lte3/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css}">
+
+    <!-- DataTables -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/lte3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/lte3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/lte3/dist/css/adminlte.min.css}">
+
+    <link rel="stylesheet" th:href="@{/lte3/plugins/toastr/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/paginas/css/utils.css}">
+    <link rel="stylesheet" th:href="@{/paginas/css/local.css}">
+
+    <link rel="stylesheet" th:href="@{/paginas/css/noprint.css}">
+</head>
+<body class="sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-collapse" style="font-size: 14px">
+<div class="wrapper">
+    <!-- Navbar -->
+    <div th:replace="~{fragments/header}"></div>
+    <!-- /.navbar -->
+
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <div th:replace="~{fragments/main-sidebar}"></div>
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <section layout:fragment="content"></section>
+    </div>
+    <!-- /.content-wrapper -->
+    <div th:replace="~{fragments/footer}"></div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<!-- jQuery -->
+<script th:src="@{/lte3/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/lte3/plugins/inputmask/jquery.inputmask.min.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/lte3/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- overlayScrollbars -->
+<script th:src="@{/lte3/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/lte3/dist/js/adminlte.js}"></script>
+<!-- DataTables  & Plugins -->
+<script th:src="@{/lte3/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/lte3/plugins/jszip/jszip.min.js}"></script>
+<script th:src="@{/lte3/plugins/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/lte3/plugins/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
+<!-- PAGE PLUGINS -->
+
+
+<script th:src="@{/lte3/plugins/toastr/toastr.min.js}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+
+<!-- Clients -->
+<script th:src="@{/js/clients/Fetch.js}"></script>
+
+<!-- Controllers -->
+<script th:src="@{/paginas/js/controllers/PagamentoController.js}"></script>
+
+</div>
+</div>
+</body>
+</html>

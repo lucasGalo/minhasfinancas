@@ -1,0 +1,112 @@
+<a href="#" class="brand-link">
+    <img th:src="@{/img/favicon/favicon.jpg}" alt="Minhas Finanças Logo" class="brand-image"
+         style="opacity: .8">
+    <span class="brand-text font-weight-light" style="font-family: cursive;">Minhas Finanças</span>
+</a>
+
+<div class="sidebar">
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+<!--        <div class="image">-->
+<!--            <img th:src="@{'/img/usuarios/'+${session.isEmpty() ? 'nophoto.jpg': #authentication.getPrincipal().getImg().getNome()}+''}"-->
+<!--                 class="img-circle elevation-2" alt="User Image">-->
+<!--        </div>-->
+        <div class="info" style="text-transform: capitalize;">
+            <a th:href="@{/usuarios/perfil(id=${session.isEmpty() ? '' : #authentication.getPrincipal().getId()})}"
+               class="d-block" th:text="${session.isEmpty() ? '' : #authentication.getPrincipal().getNome()}">Nenhum login</a>
+        </div>
+    </div>
+    <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+            <div class="input-group-append">
+                <button class="btn btn-sidebar">
+                    <i class="fas fa-search fa-fw"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-file"></i>
+                    <p> Pages
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a th:href="@{/usuarios/index}" class="nav-link"> <i class="far fa-circle"></i>
+                            <p>Index</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/calendars/list}" class="nav-link"> <i class="far fa-circle"></i>
+                            <p>Calendario</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/estatisticas/list}" class="nav-link"> <i class="far fa-circle"></i>
+                            <p>Estatisticas</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-shopping-cart"></i>
+                    <p> Despesas
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a th:href="@{/compras/list}" class="nav-link"> <i class="fa fa-circle"></i>
+                            <p>Compra</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/items/list}" class="nav-link"> <i class="far fa-circle"></i>
+                            <p>Itens</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/pagamentos/list}" class="nav-link"> <i class="far fa-circle"></i>
+                            <p>Pagamentos</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/carteiras/list}" class="nav-link"> <i class="far fa-circle"></i>
+                            <p>Carteiras</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/categorias/list}" class="nav-link"> <i class="far fa-circle"></i>
+                            <p>Categorias</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-shopping-cart"></i>
+                    <p> Receita
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a th:href="@{/rendas/list}" class="nav-link"> <i class="fa fa-circle"></i>
+                            <p>Renda</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/tipos/list}" class="nav-link"> <i class="far fa-circle"></i>
+                            <p>Tipos</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>

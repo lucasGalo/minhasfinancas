@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_profile}"
+>
+<body>
+<section layout:fragment="content">
+    <!-- Main content -->
+    <div class="container-fluid">
+        <div class="row col-md-12">
+            <div class="col-md-12">
+                <div class="row col-md-12" style="padding: 0.25rem!important; text-transform: capitalize; font-size: 1rem!important">
+                    <div class="col-md-3">
+                        <strong><i class="far fa-file-alt mr-1"></i> Dados pessoais</strong>
+
+                        <p class="text-muted">
+                            Nome de contato: <span th:text="${single.nomecontato == null ? '' : single.nomecontato}"></span>
+                            <br>
+                            RG: <span th:text="${single.rg == null ? '' : single.rg}"></span>
+                            <br>
+                            CPF/CNPJ: <span class="cpfcnpj" data-inputmask="'mask': ['999.999.999-99', '99.999.999/9999-99']" th:text="${single.identificacao == null ? '' : single.identificacao}"></span>
+                        </p>
+                    </div>
+                    <div class="col-md-3">
+                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Localização</strong>
+
+                        <p class="text-muted">
+                            <span th:text="${single.endereco == null || single.endereco.logradouro == null ? '' : single.endereco.logradouro}"></span>
+                            <span th:text="${single.endereco == null || single.endereco.numero == null ? '' : single.endereco.numero}"></span>
+                            <span th:text="${single.endereco == null || single.endereco.complemento == null ? '' : single.endereco.complemento}"></span>
+                            <br>
+                            <span th:text="${single.endereco == null || single.endereco.condominio == null ? '' : 'Cond: '+single.endereco.condominio}"></span>
+                            <br>
+                            <span th:text="${single.endereco == null || single.endereco.bairro == null ? '' : single.endereco.bairro}"></span>
+                            ,<span th:text="${single.endereco == null || single.endereco.cidade == null  ? '' : single.endereco.cidade}"></span>
+                            CEP: <span th:text="${single.endereco == null || single.endereco.cep == null ? '' : single.endereco.cep}"></span>
+                        </p>
+                    </div>
+                    <div class="col-md-3">
+                        <strong><i class="fas fa-book mr-1"></i> Contato</strong>
+
+                        <p class="text-muted">
+                            Phone 1: <span class="telefone"
+                                           th:text="${single.telefone1 == null ? '' : single.telefone1}"></span>
+                            <br>
+                            Phone 2: <span class="telefone"
+                                           th:text="${single.telefone2 == null ? '' : single.telefone2}"></span>
+                            <br>
+                            E-mail: <span th:text="${single.email == null ? '' : single.email}"></span>
+                        </p>
+                    </div>
+                    <div class="col-md-2">
+                        <p>
+                            <b>QTD compra</b> <a class="float-right" th:text="${single.compra.size}"></a>
+                            <br>
+                            <b>Pgto total</b> <a class="float-right" th:text="${#numbers.formatDecimal(single.pgtoAllRols, 1, 'POINT', 2, 'COMMA')}"></a>
+                            <br>
+                            <b>Saldo Devedor</b> <a class="float-right" th:style="${single.saldoAllRols > 0} ? 'color: red' : 'color: green' " th:text="${#numbers.formatDecimal(single.saldoAllRols, 1, 'POINT', 2, 'COMMA')}"></a>
+                            <br>
+                            <b>Último compra</b> <a class="float-right" th:text="${single.ultimoRol == null ? '-' : #dates.format(single.ultimoRol.dataRecente, 'dd-MM-yyyy')}"> </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label><i class="nav-icon fas fa-edit"></i> Anotações <span id="limit" th:text="${single.descricao != null ? #strings.length(single.descricao) - 1000 +'/1000': '1000/1000'}"></span></label>
+                            <textarea class="form-control" th:text="${single.descricao}" rows="3"
+                                      th:attr="onblur='UsuarioController.anotacoes(this.value, '+ ${single.id} + ')'"
+                                      onkeyup="UsuarioController.diminuir(this.value)"
+                                      maxlength="1000"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- /.col -->
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Rols</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Config</a></li>
+                        </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="active tab-pane" id="activity">
+                                <div class="card-body p-0">
+                                    <div th:replace="~{paginas/usuarios/other/rols_tabela}"></div>
+                                </div>
+                            </div>
+
+                            <div th:replace="~{paginas/usuarios/other/timeline}"></div>
+
+
+                            <div th:replace="~{paginas/usuarios/other/settings}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modais-->
+        <div th:replace="~{paginas/items/modais/Item_status_modal}"></div>
+        <div th:replace="~{paginas/items/modais/Item_all_status_modal}"></div>
+        <div th:replace="~{paginas/items/modais/Item_entrega_modal}"></div>
+        <div th:replace="~{paginas/pagamentos/modais/pagamento_add_modal}"></div>
+        <div th:replace="~{paginas/wpps/modais/wpp_modal}"></div>
+        <div th:replace="~{paginas/compra/modal/rol_entrega_modal}"></div>
+        <!-- /.Modais-->
+    </div>
+</section>
+</body>
+</html>

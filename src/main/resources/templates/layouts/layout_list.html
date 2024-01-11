@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" th:href="@{/img/favicon/favicon.jpg}" sizes="any"/>
+    <title>Minhas | Finanças</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/fontawesome-free/css/all.min.css}">
+    <!-- fullCalendar -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/fullcalendar/main.css}">
+    <!-- Select2 -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/select2/css/select2.min.css}">
+    <link rel="stylesheet" th:href="@{/lte3/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css}">
+    <!-- DataTables -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/lte3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/lte3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/lte3/dist/css/adminlte.min.css}">
+
+    <link rel="stylesheet" th:href="@{/lte3/plugins/toastr/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/paginas/css/local.css}">
+</head>
+<body class="sidebar-mini layout-fixed sidebar-collapse" style="font-size: 14px">
+<div class="wrapper">
+    <!-- Navbar -->
+    <div th:replace="~{fragments/header}"></div>
+    <!-- /.navbar -->
+
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <div th:replace="~{fragments/main-sidebar}"></div>
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <section class="content">
+            <div th:replace="~{fragments/message}"></div>
+            <div class="container-fluid" style="padding: 0!important;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title" th:text="${FRM}"></h3>
+                                <div class="card-tools">
+                                    <a type="button" class="btn btn-success btn-sm pull-right" data-placement="top"
+                                       title="novo" th:href="${NEW_URL}">
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div layout:fragment="content" th:remove="tag"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+    <div th:replace="~{fragments/footer}"></div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<!-- jQuery -->
+<!--<script th:src="@{/lte3/plugins/jquery/jquery.min.js}"></script>-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/lte3/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- DataTables  & Plugins -->
+<script th:src="@{/lte3/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/lte3/plugins/jszip/jszip.min.js}"></script>
+<script th:src="@{/lte3/plugins/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/lte3/plugins/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/lte3/dist/js/adminlte.min.js}"></script>
+
+<!-- fullCalendar 2.2.5 -->
+<script th:src="@{/lte3/plugins/moment/moment.min.js}"></script>
+<script th:src="@{/lte3/plugins/fullcalendar/main.js}"></script>
+<script th:src="@{/lte3/plugins/fullcalendar/locales/pt-br.js}"></script>
+
+<!-- Select2 -->
+<script th:src="@{/lte3/plugins/select2/js/select2.full.min.js}"></script>
+
+<script th:src="@{/lte3/plugins/toastr/toastr.min.js}"></script>
+<script th:src="@{/paginas/js/utils/dataTableList.js}"></script>
+<!-- Page specific script -->
+<!-- Fim input file-->
+<div layout:fragment="script">
+    <script type="text/javascript">
+  $(function () {
+    dataTable();
+  });
+    </script>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_index}"
+>
+<body>
+<section layout:fragment="content">
+    <div th:if="${message}"
+         th:class="${'alert ' + alertClass + ' alert-dismissible'}">
+        <button type="button" class="close" data-dismiss="alert"
+                aria-hidden="true">×
+        </button>
+        <h3>
+            <i class="icon fa fa-info"></i>
+        </h3>
+        <div th:text="${message}"></div>
+    </div>
+    <div class="box">
+        <!-- /.box-header -->
+        <div class="box-body">
+            <h3> Bem vindo ao sistema - Minhas-Finanças</h3>
+        </div>
+        <!-- /.box-body -->
+        <div class="card-body" style="padding: 10px 20px !important;">
+            <h3>Filtrar por algum cliente?</h3>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputNomePes">Nome/Razão social*</label>
+                        <input type="text" class="form-control" id="inputNomePes" placeholder="Informe o Nome/Razão social"
+                               autocomplete="off" name="nome"/>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="cpfcnpjPes">CPF/CNPJ</label>
+                        <input type="text" class="form-control" id="cpfcnpjPes" autocomplete="off"
+                               name="identificacao" placeholder="Informe o cpf/cnpj">
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="inputTelefone1Pes">Telefone1</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="inputTelefone1Pes"
+                                   autocomplete="off"
+                                   name="telefone1"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="inputTelefone2Pes">Telefone2</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="inputTelefone2Pes"
+                                   autocomplete="off"
+                                   name="telefone2"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputLogradouroPes">Rua/Av</label>
+                        <input type="text" class="form-control" id="inputLogradouroPes"
+                               placeholder="Informe a rua ou Avenida" autocomplete="off"
+                               name="logradouro"/>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="inputRol">Rol</label>
+                        <input type="text" class="form-control" id="inputRol"
+                               placeholder="Informe o compra" autocomplete="off"
+                               name="compra"/>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="inputLacre">Lacre</label>
+                        <input type="text" class="form-control" id="inputLacre"
+                               placeholder="Informe o lacre" autocomplete="off"
+                               name="lacre"/>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="inputData">Data</label>
+                        <div class="input-group date">
+                            <input type="date" class="form-control pull-right" id="inputData" name="data"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" onclick="UsuarioController.buscaAjax()">
+                    <i class="fas fa-1x fa-sync fa-spin" id="loading" style="display: none;"></i>Clientes
+                </button>
+                <button class="btn btn-primary" onclick="UsuarioController.itemAjax()">
+                    <i class="fas fa-1x fa-sync fa-spin" id="loadingItem" style="display: none;"></i>Serviços
+                </button>
+                <input class="btn btn-default" value="Limpar" onclick="UsuarioController.Limpar()">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card" style="margin-top: 10px;">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            <i class="fas fa-users"></i>
+                            CLIENTES FILTRADOS
+                        </h5>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table id="example1" class="table m-0">
+                                <thead>
+                                <tr class="text-center">
+                                    <th>#</th>
+                                    <th>Ações</th>
+                                    <th>Nome</th>
+                                    <th>Cpf/Cnpj</th>
+                                    <th>Endereço</th>
+                                    <th>Tel.1</th>
+                                    <th>Tel.2</th>
+                                    <th>Bairro</th>
+                                    <th>Cidade</th>
+                                    <th>Data</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tblCliente">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card" style="margin-top: 10px;">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            <i class="ion ion-ios-cart-outline"></i>
+                            Serviços filtrados
+                        </h5>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table id="example2" class="table m-0">
+                                <thead>
+                                <tr class="text-center">
+                                    <th>Rol</th>
+                                    <th>Cliente</th>
+                                    <th>Serviço</th>
+                                    <th>Status</th>
+                                    <th>Uni.</th>
+                                    <th>Qtd</th>
+                                    <th>V.Unit</th>
+                                    <th>Desc.</th>
+                                    <th>Sub-total</th>
+                                    <th>Total</th>
+                                    <th>Lacre</th>
+                                    <th>Prat</th>
+                                    <th>Lav.</th>
+                                    <th>Data</th>
+                                    <th>Tel 1</th>
+                                    <th>Tel 2</th>
+                                    <th>End</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tblItem">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            <!-- /.box -->
+</section>
+</body>
+</html>

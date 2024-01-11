@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_form}"
+>
+<body>
+<section layout:fragment="content">
+    <form role="form" th:action="${single.persistido} ? ${EDITAR_URL} : ${NEW_URL}" method="post" th:object="${single}">
+        <div class="card-header">
+            <h3 class="card-title" th:text="${FRM}"></h3>
+            <div class="card-tools">
+                <button type="submit" class="btn btn-info" data-placement="top" title="salvar e retornar">
+                    <i class="fa fa-save"></i>
+                </button>
+                <a type="button" class="btn btn-warning" th:href="${LIST_URL}" data-placement="top" title="retornar">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{persistido}">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="selectUsuario">Usuario associado?</label>
+                        <select id="selectUsuario" data-placeholder="Qual usuário associado?"
+                                tabindex="-1" aria-hidden="true" class="form-control" th:field="*{usuario}" required>
+
+                            <option value="">Qual usuário associado?</option>
+                            <option th:each="usuario: ${usuarios}"
+                                    th:value="${{usuario}}"
+                                    th:text="${usuario.nome}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputNome">Nome</label>
+                        <input type="text" class="form-control" id="inputNome" placeholder="Informe o nome"
+                               th:field="*{nome}" required/>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputSession">Session</label>
+                        <input type="text" class="form-control" id="inputSession" placeholder="Informe a sessão"
+                               th:field="*{session}" required/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>IP</label>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-laptop"></i></span>
+                        </div>
+                        <input type="text" class="form-control" data-inputmask="'alias': 'ip'" data-mask th:field="*{ip}" required>
+                    </div>
+                    <!-- /.input group -->
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputLatitude">Latitude</label>
+                        <input type="number" class="form-control" id="inputLatitude" placeholder="Informe a latitude"
+                               th:field="*{session}" required/>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputLongitude">Longitude</label>
+                        <input type="number" class="form-control" id="inputLongitude" placeholder="Informe a longitude"
+                               th:field="*{longitude}" required/>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputHeaders">Headers</label>
+                        <input type="number" class="form-control" id="inputHeaders" placeholder="Informe a headers"
+                               th:field="*{headers}" required/>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Ativo: </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optionRadioInline" value="true"
+                                   th:checked="*{ativo}" th:field="*{ativo}" th:value="${true}"/>sim
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optionRadioInline" value="false"
+                                   th:checked="*{ativo != true} " th:field="*{ativo}" th:value="${false}"/>não
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+</body>
+</html>

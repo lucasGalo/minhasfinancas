@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" th:href="@{/img/favicon/favicon.jpg}" sizes="any"/>
+    <title>Minhas | Finanças</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Select2 -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/select2/css/select2.min.css}">
+    <link rel="stylesheet" th:href="@{/lte3/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css}">
+    <!-- DataTables -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/lte3/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/lte3/plugins/datatables-buttons/css/buttons.bootstrap4.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/lte3/dist/css/adminlte.min.css}">
+
+    <link rel="stylesheet" th:href="@{/lte3/plugins/toastr/toastr.min.css}">
+    <link rel="stylesheet" th:href="@{/paginas/css/local.css}">
+</head>
+<body class="sidebar-mini layout-fixed sidebar-collapse" style="font-size: 14px">
+<div class="wrapper">
+    <!-- Navbar -->
+    <div th:replace="~{fragments/header}"></div>
+    <!-- /.navbar -->
+
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <div th:replace="~{fragments/main-sidebar}"></div>
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <section class="content">
+            <div th:replace="~{fragments/message}"></div>
+            <div class="container-fluid" style="padding: 0!important;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                    <div class="row col-md-12">
+                                        <a type="button" class="btn btn-success btn-sm pull-right" data-placement="top"
+                                           data-toggle="modal" data-target="#modal-xl">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                        <a type="button" class="btn btn-success btn-sm pull-right" data-placement="top" style="margin-left:2px"
+                                           title="novo" th:href="@{/usuarios/new}">
+                                            <i class="fa fa-plus">Add Cliente + Rol</i>
+                                        </a>
+                                        <a type="button" class="btn btn-outline-primary pull-right" data-placement="top" style="margin-left:2px"
+                                           th:href="@{/dashboards/rolTodos}">
+                                            <i class="fas fa-shopping-cart"> Todos Rols</i>
+                                        </a>
+                                        <a type="button" class="btn btn-outline-primary pull-right" data-placement="top" style="margin-left:2px"
+                                           th:href="@{/dashboards/rolAberto}">
+                                            <i class="fas fa-shopping-cart"> Rols abertos</i>
+                                        </a>
+                                        <a type="button" class="btn btn-outline-primary pull-right" data-placement="top" style="margin-left:2px"
+                                           th:href="@{/dashboards/rolPgtoPendente}">
+                                            <i class="fas fa-shopping-cart"> Rols pgto pendente</i>
+                                        </a>
+                                        <a type="button" class="btn btn-outline-primary pull-right" data-placement="top" style="margin-left:2px"
+                                           th:href="@{/dashboards/rolProntoRetirada}">
+                                            <i class="fas fa-shopping-cart"> Rols pronto retirada</i>
+                                        </a>
+                                        <a type="button" class="btn btn-outline-primary pull-right" data-placement="top" style="margin-left:2px"
+                                           th:href="@{/dashboards/rolAgendado}">
+                                            <i class="fas fa-shopping-cart"> Rols agendados</i>
+                                        </a>
+                                        <a type="button" class="btn btn-outline-info btn-sm pull-right" data-placement="top" style="margin-left:2px"
+                                           th:href="@{/dashboards/allItens}">
+                                            <i class="fas fa-mortar-pestle"> Todos serviços feito</i>
+                                        </a>
+                                        <a type="button" class="btn btn-outline-info btn-sm pull-right" data-placement="top" style="margin-left:5px"
+                                           th:href="@{/dashboards/allLavando}">
+                                            <i class="fas fa-mortar-pestle"> Serviços lavando</i>
+                                        </a>
+                                        <a type="button" class="btn btn-outline-info btn-sm pull-right" data-placement="top" style="margin-left:2px"
+                                           th:href="@{/dashboards/allProntoRetirada}">
+                                            <i class="fas fa-mortar-pestle"> Serviços pronto retirada</i>
+                                        </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div layout:fragment="content" th:remove="tag"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+    <div th:replace="~{fragments/footer}"></div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<!-- jQuery -->
+<script th:src="@{/lte3/plugins/jquery/jquery.min.js}"></script>
+<script th:src="@{/lte3/plugins/inputmask/jquery.inputmask.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/lte3/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- DataTables  & Plugins -->
+<script th:src="@{/lte3/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+<script th:src="@{/lte3/plugins/jszip/jszip.min.js}"></script>
+<script th:src="@{/lte3/plugins/pdfmake/pdfmake.min.js}"></script>
+<script th:src="@{/lte3/plugins/pdfmake/vfs_fonts.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+<script th:src="@{/lte3/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/lte3/dist/js/adminlte.min.js}"></script>
+
+<!-- Select2 -->
+<script th:src="@{/lte3/plugins/select2/js/select2.full.min.js}"></script>
+
+<script th:src="@{/lte3/plugins/toastr/toastr.min.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+<!--Pages-->
+<script th:src="@{/js/Utils.js}"></script>
+<script th:src="@{/js/masks.js}"></script>
+<script th:src="@{/paginas/js/utils/dataTableDashboard.js}"></script>
+<script th:src="@{/paginas/js/config/configs.js}"></script>
+<script th:src="@{/paginas/js/utils/masks.js}"></script>
+
+<script th:src="@{/js/clients/Fetch.js}"></script>
+
+<!-- Controllers -->
+<script th:src="@{/paginas/js/controllers/UsuarioController.js}"></script>
+<script th:src="@{/paginas/js/controllers/ItemController.js}"></script>
+<script th:src="@{/paginas/js/controllers/PagamentoController.js}"></script>
+<!-- Fim input file-->
+
+<script th:src="@{/paginas/js/utils/viacep.js}"></script>
+
+<div layout:fragment="script" th:remove="tag"></div>
+<div layout:fragment="local">
+    <script type="text/javascript">
+ $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+
+    $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
+
+   $("#formStatusItem").submit(function(e) {
+        //prevent Default functionality
+        e.preventDefault();
+        let id = 'statusItem'+Utils.getValueInput("idItem");
+
+        //do your own request an handle the results
+        $.ajax({
+                url: '/items/statusItem',
+                type: 'post',
+                dataType: 'application/json',
+                data: $("#formStatusItem").serialize(),
+                 beforeSend:function(){
+                    //alert('alerta');
+                },
+                success:function(response, textStatus, jqXHR){
+                    $("#"+id).html(jqXHR.responseText);
+                    toastr.success("Status serviço alterado com sucesso");
+                },
+                complete:function(){
+                    $('#modal-item').modal('hide');
+                    $("#formStatusItem").trigger("reset");
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    $("#"+id).html(jqXHR.responseText);
+                    toastr.success("Status serviço alterado com sucesso");
+                }
+        });
+    });
+
+    $("#formStatusItemIndex").submit(function(e) {
+        //prevent Default functionality
+        e.preventDefault();
+        let id = '#compra'+Utils.getValueInput("inputRolItemIndex");
+        let idItem = '#rolItem'+Utils.getValueInput("inputRolItemIndex");
+
+        //do your own request an handle the results
+        $.ajax({
+                url: '/items/statusItemRol',
+                type: 'post',
+                dataType: 'application/json',
+                data: $("#formStatusItemIndex").serialize(),
+                 beforeSend:function(){
+                    //alert('alerta');
+                },
+                success:function(response, textStatus, jqXHR){
+                    $(id).html(jqXHR.responseText);
+                    $(idItem).remove()
+                    toastr.success("Status serviço alterado com sucesso");
+                },
+                complete:function(){
+                    $('#modal-item-index').modal('hide');
+                    $("#formStatusItemIndex").trigger("reset");
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    $(id).remove()
+                    $(idItem).remove()
+                    $("#tbodyRol").prepend(jqXHR.responseText);
+                    toastr.success("Status serviço alterado com sucesso");
+                }
+        });
+    });
+
+
+     $("#formStatusAllItem").submit(function(e) {
+        //prevent Default functionality
+        e.preventDefault();
+        let id = '#compra'+Utils.getValueInput("idRol");
+        let idItem = '#rolItem'+Utils.getValueInput("idRol");
+
+        //do your own request an handle the results
+        $.ajax({
+                url: '/items/statusAll',
+                type: 'post',
+                dataType: 'application/json',
+                data: $("#formStatusAllItem").serialize(),
+                 beforeSend:function(){
+                    //alert('alerta');
+                },
+                success:function(response, textStatus, jqXHR){
+                    $(id).remove()
+                    $(idItem).remove()
+                    $("#tbodyRol").prepend(jqXHR.responseText);
+                    toastr.success("Alterado status de todos serviço com sucesso");
+                },
+                complete:function(){
+                    $('#modal-statusAll').modal('hide');
+                    $("#formStatusAllItem").trigger("reset");
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    $(id).remove()
+                    $(idItem).remove()
+                    $("#tbodyRol").prepend(jqXHR.responseText);
+                    toastr.success("Alterado status de todos serviço com sucesso");
+                }
+        });
+    });
+
+     $("#formAddPgto").submit(function(e) {
+        //prevent Default functionality
+        e.preventDefault();
+        let id = '#compra'+Utils.getValueInput("idRolPgto");
+        let idItem = '#rolItem'+Utils.getValueInput("idRolPgto");
+
+        //do your own request an handle the results
+        $.ajax({
+                url: '/pagamentos/addPgto',
+                type: 'post',
+                dataType: 'application/json',
+                data: $("#formAddPgto").serialize(),
+                 beforeSend:function(){
+                    //alert('alerta');
+                },
+                success:function(response, textStatus, jqXHR){
+                    $(id).remove()
+                    $(idItem).remove()
+                    $("#tbodyRol").prepend(jqXHR.responseText);
+                    toastr.success("Adicionado Pagmento com sucesso");
+                },
+                complete:function(){
+                    $('#modal-pagamento').modal('hide');
+                    $("#formAddPgto").trigger("reset");
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    $(id).remove()
+                    $(idItem).remove()
+                    $("#tbodyRol").prepend(jqXHR.responseText);
+                    toastr.success("Adicionado Pagmento com sucesso");
+                }
+        });
+    });
+
+  })
+    </script>
+</div>
+</body>
+</html>

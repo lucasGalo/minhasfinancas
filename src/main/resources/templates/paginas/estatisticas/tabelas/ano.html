@@ -1,0 +1,86 @@
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Controle do Ano - Mês por mês</h5>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-sm-12">
+                <div class="card card-secondary card-tabs">
+                    <div class="card-header p-0 pt-1">
+                        <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                            <li class="nav-item" th:each="maps : ${list.get(0).ComprasPorAno}">
+                                <a th:class="'nav-link '+${list.get(0).AnoAtual == maps.key ? 'active show': ''}"
+                                   th:id="${'custom-tabs-two-'+maps.key+'-tab'}" data-toggle="pill"
+                                   th:href="${'#custom-tabs-two-'+maps.key}" role="tab"
+                                   th:attr="aria-controls=${'custom-tabs-two-'+maps.key}, aria-selected=${list.get(0).AnoAtual == maps.key ? true: false}"
+                                   th:text="${maps.key}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-two-tabContent">
+                            <div th:class="'tab-pane fade '+${list.get(0).AnoAtual == ano.key ? 'active show': ''}"
+                                 th:each="ano : ${list.get(0).ComprasPorAno}" th:id="${'custom-tabs-two-'+ano.key}"
+                                 role="tabpanel" th:attr="aria-labelledby=${'custom-tabs-two-'+ano.key+'-tab'}">
+                                <table id="example33" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Mês</th>
+                                        <th>#Total</th>
+                                        <th>Qtd Cat.</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:if="${ano.value.empty}">
+                                        <td colspan="6"><span th:text="${'Não há dados para listar no mês de: '+ano.key}"></span></td>
+                                    </tr>
+                                    <tr th:each="mes : ${list.get(0).meses}">
+                                        <td><span th:text="${mes.value}"></span></td>
+<!--                                        <td><span th:text="${list.get(0).despesasPorAno.get(ano.key).getTotalMes(mes.value)}"></span></td>-->
+                                        <td><span th:text="${#numbers.formatDecimal(list.get(0).despesasPorAno.get(ano.key).getTotalMes(mes.value), 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                        <td><span th:text="${list.get(0).despesasPorAno.get(ano.key).getQtdCategorias()}"></span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-sm-3 col-6">
+                <div class="description-block border-right">
+                    <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+                    <h5 class="description-header" th:text="${list.get(0).compras.size}"></h5>
+                    <span class="description-text">QTD COMPRAS</span>
+                </div>
+            </div>
+
+            <div class="col-sm-3 col-6">
+                <div class="description-block border-right">
+                    <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
+                    <h5 class="description-header" th:text="${list.get(0).QtdCategorias}"></h5>
+                    <span class="description-text">QTD CATEGORIA</span>
+                </div>
+            </div>
+            <div class="col-sm-3 col-6">
+                <div class="description-block">
+                    <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+                    <h5 class="description-header" th:text="${#numbers.formatDecimal(list.get(0).Total, 1, 'POINT', 2, 'COMMA')}">1200</h5>
+                    <span class="description-text">TOTAL GERAL</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+>
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" th:href="@{/img/favicon/favicon.jpg}" sizes="any"/>
+    <title>Minhas | Finanças</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/fontawesome-free/css/all.min.css}">
+    <!-- daterange picker -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/daterangepicker/daterangepicker.css}">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css}">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+    <!-- Select2 -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/select2/css/select2.min.css}">
+    <link rel="stylesheet" th:href="@{/lte3/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css}">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css}">
+    <!-- BS Stepper -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/bs-stepper/css/bs-stepper.min.css}">
+    <!-- dropzonejs -->
+    <link rel="stylesheet" th:href="@{/lte3/plugins/dropzone/min/dropzone.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/lte3/dist/css/adminlte.min.css}">
+
+    <link rel="stylesheet" th:href="@{/lte3/plugins/toastr/toastr.min.css}">
+</head>
+<body class="sidebar-mini sidebar-collapse">
+<div class="wrapper">
+    <!-- Navbar -->
+    <div th:replace="~{fragments/header}"></div>
+    <!-- /.navbar -->
+
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <div th:replace="~{fragments/main-sidebar}"></div>
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <section class="content">
+            <div th:replace="~{fragments/message}"></div>
+            <div th:replace="~{fragments/erros}"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div layout:fragment="content" th:remove="tag"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+    <div th:replace="~{fragments/footer}"></div>
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<!-- jQuery -->
+<script th:src="@{/lte3/plugins/jquery/jquery.min.js}"></script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/lte3/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Select2 -->
+<script th:src="@{/lte3/plugins/select2/js/select2.full.min.js}"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script th:src="@{/lte3/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
+<!-- InputMask -->
+<script th:src="@{/lte3/plugins/moment/moment.min.js}"></script>
+<script th:src="@{/lte3/plugins/inputmask/jquery.inputmask.min.js}"></script>
+<!-- date-range-picker -->
+<script th:src="@{/lte3/plugins/daterangepicker/daterangepicker.js}"></script>
+<!-- bootstrap color picker -->
+<script th:src="@{/lte3/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script th:src="@{/lte3/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+<!-- Bootstrap Switch -->
+<script th:src="@{/lte3/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+<!-- BS-Stepper -->
+<script th:src="@{/lte3/plugins/bs-stepper/js/bs-stepper.min.js}"></script>
+<!-- dropzonejs -->
+<script th:src="@{/lte3/plugins/dropzone/min/dropzone.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/lte3/dist/js/adminlte.min.js}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+<script th:src="@{/lte3/plugins/toastr/toastr.min.js}"></script>
+<script th:src="@{/paginas/js/utils/masks.js}"></script>
+
+<!--Pages-->
+<script th:src="@{/js/Utils.js}"></script>
+
+<div layout:fragment="script" th:remove="tag"></div>
+
+<div layout:fragment="local">
+    <script type="text/javascript">
+ $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+    $("input[id*='cpfcnpj']").inputmask({
+        mask: ['999.999.999-99', '99.999.999/9999-99'],
+        keepStatic: true
+    });
+
+        $("input[id*='inputTelefone1']").inputmask({
+        mask: ['(99) 9 9999-9999'],
+        keepStatic: true
+    });
+    $("input[id*='inputTelefone2']").inputmask({
+        mask: ['(99) 9 9999-9999'],
+        keepStatic: true
+    });
+    $("input[id*='inputRG']").inputmask({
+        mask: ["99.999.999-9"],
+        keepStatic: true
+    });
+    $("input[id*='inputCep']").inputmask({
+        mask: ["99999-999"],
+        keepStatic: true
+    });
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+
+    $('.my-colorpicker1').colorpicker()
+
+    }
+)
+    </script>
+</div>
+</body>
+</html>

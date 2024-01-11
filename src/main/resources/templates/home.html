@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{free/layout_free}"
+>
+<body>
+<section layout:fragment="content-wrapper">
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container">
+        <div class="row mb-2">
+          <div class="col-sm-9">
+            <h1 class="m-0"> Minhas Finanças, <small>sistema para controle pessoal das finanças.</small></h1>
+          </div><!-- /.col -->
+          <div class="col-sm-3">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container" >
+        <div class="row">
+          <div class="col-lg-9" th:style="'background-image:url(' + @{'/img/background/ambienteclean_home.jpg'} + ');background-repeat: no-repeat;background-size: 100% 100%;'">
+<!--            <div class="card">-->
+<!--              <div class="card-body">-->
+<!--                <h5 class="card-title">GPS com a melhor cobertura</h5>-->
+
+<!--                <p class="card-text">-->
+<!--                  Todos os GPS com cobertura no Brasil todo.-->
+<!--                </p>-->
+
+<!--                <a href="#" class="card-link">Card link</a>-->
+<!--                <a href="#" class="card-link">Another link</a>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <div class="card card-primary card-outline">-->
+<!--              <div class="card-body">-->
+<!--                <h5 class="card-title">Controle total</h5>-->
+
+<!--                <p class="card-text">-->
+<!--                  Desligue e ligue o seu veículo de onde estiver, mais segurança e praticidade.-->
+<!--                </p>-->
+<!--                <a href="#" class="card-link">Card link</a>-->
+<!--                <a href="#" class="card-link">Another link</a>-->
+<!--              </div>-->
+<!--            </div>&lt;!&ndash; /.card &ndash;&gt;-->
+          </div>
+          <!-- /.col-md-6 -->
+          <div class="col-lg-3">
+            <div class="card" style="border-radius: 10px 60px 10px 15px;
+              background: transparent linear-gradient(-100deg, #00316B 0%, #003D87 100%) 0% 0% no-repeat padding-box; color:#FFF">
+              <div class="card-header">
+                <h5 class="card-title m-0">Banner para publicidade</h5>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">informações complementares</h6>
+
+                <p class="card-text">outras</p>
+                <a th:href="@{/contatos/novo}" class="btn" style="color: #fff; border-color: #007bff; box-shadow: none; ">Contato</a>
+              </div>
+            </div>
+
+            <div class="card"
+                 style="border-radius: 10px 15px 10px 60px;
+                 background: transparent linear-gradient(-100deg, #00316B 0%, #003D87 100%) 0% 0% no-repeat padding-box; color:#FFF">
+              <div class="card-header">
+                <h5 class="card-title m-0">2 Banner</h5>
+              </div>
+              <div class="card-body">
+                <h6 class="card-title">Informações</h6>
+
+
+                <a th:href="@{/saibamais}" class="btn btn-primary" style="background-color: none !IMPORTANTE">SAIBA MAIS</a>
+              </div>
+            </div>
+          </div>
+          <!-- /.col-md-6 -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+</section>
+</body>
+</html>

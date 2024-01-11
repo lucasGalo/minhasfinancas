@@ -1,0 +1,165 @@
+<div class="tab-pane" id="dados-pessoais">
+  <form role="form" action="/usuarios/editarperfil" method="post" th:object="${single}">
+    <div class="row" style="padding: 10px 20px;">
+      <input type="hidden" th:field="*{id}">
+      <!-- Dados Pessoais  -->
+      <h4 class="modal-title">Informações Pessoais</h4>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="inputNome">Nome/Razão social*</label>
+            <input type="text" class="form-control" id="inputNome" placeholder="Informe o nome/razão social"
+                   th:attr="onblur='UsuarioController.isNome(\''+ *{nome} + '\')'"
+                   th:field="*{nome}" required/>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="inputNomeContato">Nome de contato</label>
+            <input type="text" class="form-control" id="inputNomeContato" placeholder="Nome de contato"
+                   th:field="*{nomecontato}"/>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="inputEmail">Email</label>
+
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              </div>
+              <input type="email" class="form-control" id="inputEmail" placeholder="E-mail"
+                     th:attr="onblur='UsuarioController.isEmail(\''+ *{email} + '\')'"
+                     th:field="*{email}"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="cpfcnpj">CPF/CNPJ</label>
+            <input type="text" class="form-control" id="cpfcnpj"
+                   th:field="*{identificacao}" placeholder="Informe o cpf"
+                   data-inputmask="'mask': ['999.999.999-99', '99.999.999/9999-99']">
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="inputRG">RG</label>
+            <input type="text" class="form-control" id="inputRG"
+                   th:field="*{rg}" placeholder="Informe o rg"
+                   data-inputmask='"mask":["99.999.999-9"]'
+            >
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>Data de nascimento:</label>
+            <div class="input-group date">
+              <input type="date" class="form-control pull-right" th:field="*{nascimento}"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="inputTelefone1">Telefone 1*</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+              </div>
+              <input type="text" class="form-control" id="inputTelefone1"
+                     data-inputmask='"mask": "(99) 9 9999-9999"'
+                     th:field="*{telefone1}" required/>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="inputTelefone2">Telefone 2</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+              </div>
+              <input type="text" class="form-control" id="inputTelefone2"
+                     data-inputmask='"mask": "(99) 9 9999-9999"'
+                     th:field="*{telefone2}"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Gênero*</label>
+            <div class="input-group">
+              <label class="radio-inline">
+                <input type="radio" th:field="*{genero}" value="FEMININO"/>FEMININO
+              </label>
+              <label class="radio-inline">
+                <input type="radio" th:field="*{genero}" value="MASCULINO"/>MASCULINO
+              </label>
+              <label class="radio-inline">
+                <input type="radio" th:field="*{genero}" value="EMPRESA"/>EMPRESA
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- Endereço -->
+      <h4 class="modal-title">Endereço</h4>
+      <br>
+      <div class="row col-md-12" style="margin-top: 10px;">
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="inputCep">Cep</label>
+            <input type="text" class="form-control" id="inputCep"
+                   data-inputmask='"mask": ["99999-999"]' placeholder="Informe o cep"
+                   th:field="*{endereco.cep}" onblur="pesquisacep(this.value)"/>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="inputLogradouro">Endereço</label>
+            <input type="text" class="form-control" id="inputLogradouro"
+                   placeholder="Informe a rua ou Avenida"
+                   th:field="*{endereco.logradouro}" th:value="*{endereco.logradouro + ' ' + endereco.numero +' '+ endereco.complemento}"/>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="inputCondominio">Condominio</label>
+            <input type="text" class="form-control" id="inputCondominio"
+                   placeholder="Informe o condominio"
+                   th:field="*{endereco.condominio}"/>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="inputBairro">Bairro</label>
+            <input type="text" class="form-control" id="inputBairro" placeholder="Informe o bairro"
+                   th:field="*{endereco.bairro}"/>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="inputCidade">Cidade*</label>
+            <input type="text" class="form-control" id="inputCidade" placeholder="Informe a cidade"
+                   th:field="*{endereco.cidade}" required/>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </form>
+</div>

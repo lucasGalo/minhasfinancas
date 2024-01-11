@@ -1,0 +1,7 @@
+</br>
+<ul  th:if="${erros != null}">
+    <li th:each="erro : ${erros}">
+        No campo: <span th:text="${erro.field}" style="font-size:18px; font-weight:bold;  text-transform: capitalize"></span>
+        , <span th:text="${erro.defaultMessage}" style="font-style: italic;"></span>
+    </li>
+</ul>

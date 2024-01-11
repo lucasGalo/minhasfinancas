@@ -1,0 +1,58 @@
+<div class="card-body">
+
+    <div class="card card-primary card-outline card-outline-tabs">
+
+        <div class="card-body">
+            <div class="tab-content" id="custom-tabs-two-tabContent" th:each="ano : ${single.estatisticas.ComprasPorAno}">
+
+                <div th:class="'tab-pane fade '+${single.estatisticas.MesAtual == comprasProMes.key && ano.key == single.estatisticas.AnoAtual? 'active show': ''}"
+                     th:each="comprasProMes : ${single.estatisticas.getDespesas(ano.value).ListDeComprasPorMes}"
+                     th:id="${'custom-tabs-two-'+comprasProMes.key+'-'+ano.key}"
+                     role="tabpanel" th:attr="aria-labelledby=${'custom-tabs-two-'+comprasProMes.key+'-tab-'+ano.key}">
+
+                    <div class="row col-12" style="text-align: center">
+
+                        <div class="col-4" style="font-weight: bold">
+                            Renda
+                            <address style="color: blue; font-size: 18px; font-weight: 550; margin: 0px !important">
+                                0.00R$
+                            </address>
+                        </div>
+                        <div class="col-4" style="font-weight: bold">
+                            Despesas
+                            <address style="color: red; font-size: 18px; font-weight: 550; margin: 0px !important" th:text="${#numbers.formatDecimal(single.estatisticas.getTotalMes(comprasProMes.value), 1, 'POINT', 2, 'COMMA')+'R$'}">
+                            </address>
+                        </div>
+                        <div class="col-4" style="font-weight: bold">
+                            Total
+                            <address style="color: red; font-size: 18px; font-weight: 550; margin: 0px !important" th:text="${#numbers.formatDecimal(single.estatisticas.getTotalMes(comprasProMes.value), 1, 'POINT', 2, 'COMMA')+'R$'}">
+
+                            </address>
+                        </div>
+                    </div>
+
+                    <table class="table" th:each="diaAdia : ${single.estatisticas.getListDeComprasNoMesDiaAdia(comprasProMes.value)}"
+                           style="margin-bottom: 0px !important">
+                        <thead>
+                        <tr style="background: black; color: white; font-family: monospace; font-size: 12px">
+                            <th th:text="${diaAdia.key}+' ('+ ${#dates.dayOfWeekName(diaAdia.key)+')'}"></th>
+                            <th th:text="${#numbers.formatDecimal(single.estatisticas.getTotalMes(diaAdia.value), 1, 'POINT', 2, 'COMMA')+'R$'}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${!diaAdia.value.empty}" th:each="compra : ${diaAdia.value}" style="font-family: monospace">
+                            <td th:style="'color:'+${compra.categoria.cor}+';width: 80%'">
+                                <ion-icon size="small" th:attr="name=${compra.categoria.icone.value}"></ion-icon>
+                                <span th:text="${compra.categoria.nome}" style="color: black; font-weight: bold; font-size: 18px "></span>
+                                <span th:text="${'('+compra.nome+')'}" style="color: black;"></span>
+                            </td>
+                            <td><span th:text="${#numbers.formatDecimal(compra.vlr, 1, 'POINT', 2, 'COMMA')+'R$'}"
+                                      style="color: black; font-weight: bold; font-size: 18px "></span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_list}"
+>
+<body>
+<section layout:fragment="content">
+    <table id="example1" class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Tipo</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>#Valor</th>
+            <th>Dt</th>
+            <th>Ativo</th>
+            <th>Criado</th>
+            <th>Atualizado</th>
+            <th class="text-center">Ações</th>
+        </tr>
+        </thead>
+        <tbody style="text-transform: uppercase;">
+        <tr th:if="${list.empty}">
+            <td colspan="12"> Não há dados para listar!</td>
+        </tr>
+        <tr th:each="it : ${list}">
+            <td><span th:text="${it.id}"></span></td>
+            <td><span th:text="${it.statusRenda.value}"></span></td>
+            <td th:style="'color:'+${it.tipo.cor}"><ion-icon size="large" th:attr="name=${it.tipo.icone.value}"></ion-icon><span style="color: #000" th:text="${' '+it.tipo.nome}"></span></td>
+            <td><span th:text="${it.nome}"></span></td>
+            <td><span th:text="${it.descricao}"></span></td>
+            <td><span th:text="${#numbers.formatDecimal(it.vlr, 1, 'POINT', 2, 'COMMA')}"></span></td>
+            <td><span th:text="${#dates.format(it.date, 'dd-MM-yyyy HH:mm')}"></span>
+            <td><span th:text="${it.ativo ? 'Sim': 'Não'}"></span></td>
+            <td><span th:text="${#dates.format(it.createAt, 'dd-MM-yyyy HH:mm:ss')}"></span></td>
+            <td><span th:text="${#dates.format(it.updateAt, 'dd-MM-yyyy HH:mm:ss')}"></span></td>
+
+            <td class="btn-group-sm text-center">
+                <a type="button" class="btn btn-info"
+                   th:href="@{/rendas/editar(id=${it.id})}">
+                    <i class="fa fa-edit"></i>
+                </a>
+                <a type="button" class="btn btn-danger"
+                   th:href="@{/rendas/remover(id=${it.id})}">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</body>
+</html>

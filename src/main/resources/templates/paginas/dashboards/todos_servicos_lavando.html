@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_item}"
+>
+<body>
+<section layout:fragment="content" th:each="single : ${list}">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card" style="margin-top: 10px;">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            <i class="ion ion-ios-cart-outline"></i>
+                            Serviços lavando
+                        </h5>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <table id="itensTabela" class="table table-bordered table-striped">
+                            <thead>
+                            <tr class="text-center">
+                                <th>Rol</th>
+                                <th>Cliente</th>
+                                <th>Serviço</th>
+                                <th>status</th>
+                                <th>Qtd</th>
+                                <th>V.Unit</th>
+                                <th>Desc.</th>
+                                <th>Total</th>
+                                <th>Lacre</th>
+                                <th>Prat</th>
+                                <th>Lav.</th>
+                                <th>Data</th>
+                                <th>Tel 1</th>
+                                <th>Tel 2</th>
+                                <th>End</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${single.tblItens}" th:id="${'statusItem'+item.id}">
+                                <td><span th:text="${item.compra.id}"></span></td>
+                                <td>
+                                    <a th:href="@{/usuarios/profile(id=${item.compra.usuario.id})}"
+                                       th:text="${item.compra == null || item.compra.usuario == null || item.compra.usuario.nome == null ? '' : item.compra.usuario.nome}">
+                                    </a>
+                                </td>
+                                <td><span th:text="${item.servico == null || item.servico.id == null ? '' : item.servico.nome}"></span></td>
+                                <td>
+                                    <a style="color: black; cursor: pointer;"
+                                       th:attr="onclick='ItemController.statusItemModal('+ ${item.id} + ', \''+ ${item.statusItem.value} + '\', '+ ${item.compra.usuario.id} + ','+ ${item.compra.id} + ', \''+ ${item.compra.usuario.nome} + '\', \''+ ${item.lavadoresAll} + '\', '+ ${item.prateleira.id} + ', \'item-list\');'"
+                                       th:class="${item.getStyleItem(item.statusItem)}+' product-description'"
+                                       th:text="${item.statusItem.value}">
+                                    </a>
+                                </td>
+                                <td><span th:text="${#numbers.formatDecimal(item.qtd, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                <td><span th:text="${#numbers.formatDecimal(item.valor, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                <td><span th:text="${#numbers.formatDecimal(item.desconto, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                <td><span th:text="${#numbers.formatDecimal(item.total, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                <td><span th:text="${item.lacre}"></span></td>
+                                <td><span th:text="${item.prateleira == null || item.prateleira.id == null ? '' : item.prateleira.nome}"></span></td>
+                                <td><span th:text="${item.concatNome(item.lavadores)}"></span></td>
+                                <td><span th:text="${#dates.format(item.createAt, 'dd-MM-yyyy HH:mm:ss')}"></span></td>
+                                <td><span th:text="${item.compra == null || item.compra.usuario == null || item.compra.usuario.telefone1 == null ?'':item.compra.usuario.telefone1}"></span></td>
+                                <td><span th:text="${item.compra == null || item.compra.usuario == null || item.compra.usuario.telefone2 == null ?'':item.compra.usuario.telefone2}"></span></td>
+                                <td>
+                                    <span th:text="${item.compra == null || item.compra.usuario == null || item.compra.usuario.endereco == null || item.compra.usuario.endereco.logradouro == null ?'': item.compra.usuario.endereco.logradouro}"></span>
+                                    <span th:text="${item.compra == null || item.compra.usuario == null || item.compra.usuario.endereco == null || item.compra.usuario.endereco.numero == null ?'': item.compra.usuario.endereco.numero}"></span>
+                                    <span th:text="${item.compra == null || item.compra.usuario == null || item.compra.usuario.endereco == null || item.compra.usuario.endereco.complemento == null ?'': item.compra.usuario.endereco.complemento}"></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modaais-->
+        <div th:replace="~{paginas/items/modais/Item_status_modal}"></div>
+        <div th:replace="~{paginas/items/modais/Item_all_status_modal}"></div>
+        <div th:replace="~{paginas/pagamentos/modais/pagamento_add_modal}"></div>
+        <!-- /.Modaais-->
+</section>
+</body>
+</html>
+

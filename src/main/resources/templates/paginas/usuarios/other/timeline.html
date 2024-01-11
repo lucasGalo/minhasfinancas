@@ -1,0 +1,29 @@
+<div class="tab-pane" id="timeline">
+    <div th:if="${single.timeLines.empty}">
+        <p style="margin-left: 30px;"> Nenhum historico!</p>
+    </div>
+    <div class="timeline timeline-inverse" th:each="entry: ${single.timeLines}" style=" overflow:auto; max-height: 500px;">
+
+            <div class="time-label"><span class="bg-danger" th:text="${entry.key}"></span></div>
+            <div th:each="time : ${entry.value}">
+                <i th:class="${time.icon}"></i>
+
+                <div class="timeline-item">
+                    <span class="time" th:text="${#dates.format(time.createAt, 'dd-MM-yyyy HH:mm:ss')}"><i class="far fa-clock"></i></span>
+
+                    <h3 class="timeline-header"><a href="#" th:text="${time.nome+'  '}"></a><span th:text="${time.breve}"></span></h3>
+
+                    <div class="timeline-body">
+                        <p th:text="${time.obs}"></p>
+                    </div>
+                    <div class="timeline-footer">
+                        <a th:href="@{/compra/view(id=${time.id})}" class="btn bg-orange color-palette btn-sm"><i class="fa fa-eye"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        <div>
+            <i class="far fa-clock bg-gray"></i>
+        </div>
+    </div>
+</div>

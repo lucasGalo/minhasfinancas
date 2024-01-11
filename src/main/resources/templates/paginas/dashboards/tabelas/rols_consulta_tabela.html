@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header" style="padding:0;">
+                <h2 class="card-title">ROLs</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="rolsTbl" class="table m-0">
+                        <thead>
+                        <tr>
+                            <th style="width: 8%">Data</th>
+                            <th style="width: 8%">Rol</th>
+                            <th style="width: 54%">Cliente</th>
+                            <th style="width: 8%">Total</th>
+                            <th style="width: 12%">Status</th>
+                            <th style="width: 8%">Pgto</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${single.pedTbl.empty}">
+                            <td colspan="10"> Nenhum compra!</td>
+                        </tr>
+
+                            <tr th:each="compra : ${single.pedTbl}">
+                                <td><span th:text="${#dates.format(compra.dataCad, 'dd-MM-yyyy')}"></span></td>
+                                <td><span th:text="${compra.id}"></span></td>
+                                <td><span th:text="${compra.usuario == null || compra.usuario.nome == null ? '' : compra.usuario.nome}"></span></td>
+                                <td><span th:text="${#numbers.formatDecimal(compra.total, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                <td><span style="color: black!important;"
+                                          th:class="${compra.getStyleRol(compra.status)}+' product-description'"
+                                          th:text="${compra.status.value}">
+                                    </span>
+                                </td>
+                                <td><span th:text="${#numbers.formatDecimal(compra.totalPagamentos, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

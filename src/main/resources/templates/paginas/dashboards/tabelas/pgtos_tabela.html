@@ -1,0 +1,108 @@
+<div class="row">
+    <div class="col-12">
+        <div th:each="map : ${single.getListDePgtoGroupingTipo}">
+            <div class="card-header" style="padding:0;">
+                <h2 class="card-title" th:text="${map.key}"></h2>
+            </div>
+            <div class="card-body">
+                <div th:unless="${map.value.empty}" style="margin-bottom:35px">
+                    <div class="card-body">
+                        <table id="tblPagamanetos" class="table table-striped" style="text-transform: uppercase !important;">
+                            <thead>
+                            <tr>
+                                <th style="width: 8%">DATA</th>
+                                <th style="width: 8%">Rol</th>
+                                <th style="width: 20%">Cliente</th>
+                                <th style="width: 10%">Tipo</th>
+                                <th style="width: 30%">Descrição</th>
+                                <th style="width: 8%">Valor</th>
+                                <th style="width: 4%;">Check</th>
+                                <th style="width: 12%">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="pgto : ${map.value}">
+                                <td><span th:text="${#dates.format(pgto.dataRecente, 'dd-MM-yyyy')}"></span></td>
+                                <td><span th:text="${pgto.compra.id}"></span></td>
+                                <td><span th:text="${pgto.compra.usuario.nome}"></span></td>
+                                <td><span th:text="${pgto.tipoPagamento}"></span></td>
+                                <td><span th:title="${pgto.descricao}" th:text="${pgto.descricao}"></span></td>
+                                <td><span th:text="${#numbers.formatDecimal(pgto.valor, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                <td th:if="${#strings.contains(#authentication.principal.authorities, 'ROLE_ADMIN')}" style="text-align: center;">
+                                    <input type="checkbox" th:value="${!pgto.isCheck}" th:checked="${pgto.isCheck}" th:onclick="'javascript:PagamentoController.checkPgto('+${pgto.id}+')'">
+                                </td>
+                                <td th:unless="${#strings.contains(#authentication.principal.authorities, 'ROLE_ADMIN')}" style="text-align: center;">
+                                    <span th:if="${pgto.isCheck}" style="color: green"><ion-icon name="checkmark-outline"></ion-icon></span>
+                                    <span th:unless="${pgto.isCheck}" style="color: red"><ion-icon name="close-outline"></ion-icon></span>
+                                </td>
+                                <td><span th:text="${pgto.compra.status}" th:class="${pgto.compra.getStyleRol(pgto.compra.status)}" style="color: black!important;"></span></td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <td colspan="8" style="text-transform: initial;word-spacing: 10px;"><span th:text="${'Total de '+map.value.size+' itens '+ map.key +' R$ '+#numbers.formatDecimal(single.filterPgto(map.key), 1, 'POINT', 2, 'COMMA')}"></span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="8"></td>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.col -->
+    <div class="p-6 mb-12">
+        <div class="card-body">
+        <p class="lead">Resumo<span></span></p>
+
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th>Total de <span th:text="${#numbers.formatDecimal(single.filterPgtoSize('DINHEIRO'), 1, 'POINT', 0, 'COMMA')}"></span> itens</th>
+                    <th>DINHEIRO: </th>
+                    <td>R$ <span th:text="${#numbers.formatDecimal(single.filterPgto('DINHEIRO'), 1, 'POINT', 2, 'COMMA')}"></span></td>
+                </tr>
+                <tr>
+                    <th>Total de <span th:text="${#numbers.formatDecimal(single.filterPgtoSize('PIX'), 1, 'POINT', 0, 'COMMA')}"></span> itens</th>
+                    <th>PIX: </th>
+                    <td>R$ <span th:text="${#numbers.formatDecimal(single.filterPgto('PIX'), 1, 'POINT', 2, 'COMMA')}"></span></td>
+                </tr>
+                <tr>
+                    <th>Total de <span th:text="${#numbers.formatDecimal(single.filterPgtoSize('CONTA_CORRENTE'), 1, 'POINT', 0, 'COMMA')}"></span> itens</th>
+                    <th>CONTA CORRENTE: </th>
+                    <td>R$ <span th:text="${#numbers.formatDecimal(single.filterPgto('CONTA_CORRENTE'), 1, 'POINT', 2, 'COMMA')}"></span></td>
+                </tr>
+                <tr>
+                    <th>Total de <span th:text="${#numbers.formatDecimal(single.filterPgtoSize('DEBITO'), 1, 'POINT', 0, 'COMMA')}"></span> itens</th>
+                    <th>DEBITO: </th>
+                    <td>R$ <span th:text="${#numbers.formatDecimal(single.filterPgto('DEBITO'), 1, 'POINT', 2, 'COMMA')}"></span></td>
+                </tr>
+                <tr>
+                    <th>Total de <span th:text="${#numbers.formatDecimal(single.filterPgtoSize('CREDITO'), 1, 'POINT', 0, 'COMMA')}"></span> itens</th>
+                    <th>CREDITO: </th>
+                    <td>R$ <span th:text="${#numbers.formatDecimal(single.filterPgto('CREDITO'), 1, 'POINT', 2, 'COMMA')}"></span></td>
+                </tr>
+                <tr>
+                    <th>Total de <span th:text="${#numbers.formatDecimal(single.filterPgtoSize('BOLETO'), 1, 'POINT', 0, 'COMMA')}"></span> itens</th>
+                    <th>BOLETO: </th>
+                    <td>R$ <span th:text="${#numbers.formatDecimal(single.filterPgto('BOLETO'), 1, 'POINT', 2, 'COMMA')}"></span></td>
+                </tr>
+                <tr>
+                    <th>Total de <span th:text="${#numbers.formatDecimal(single.filterPgtoSize('PERMUTA'), 1, 'POINT', 0, 'COMMA')}"></span> itens</th>
+                    <th>PERMUTA: </th>
+                    <td>R$ <span th:text="${#numbers.formatDecimal(single.filterPgto('PERMUTA'), 1, 'POINT', 2, 'COMMA')}"></span></td>
+                </tr>
+                <tr>
+
+                    <th>Totalizando <span th:text="${#numbers.formatDecimal(single.listDePagamentos.size, 1, 'POINT', 0, 'COMMA')}"></span> itens</th>
+                    <th>total geral: </th>
+                    <td>R$ <span th:text="${#numbers.formatDecimal(single.totalPgto, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                </tr>
+            </table>
+        </div>
+        </div>
+    </div>
+    <!-- /.col -->
+</div>

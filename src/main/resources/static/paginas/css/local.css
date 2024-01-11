@@ -1,0 +1,15 @@
+.table td{
+    padding: 0.20rem; !important;
+}
+
+.table th{
+    padding: 0.3rem; !important;
+}
+
+.table td{
+    padding: 0.0rem; !important;
+}
+
+.card .card-body {
+    padding: 0!important;
+}

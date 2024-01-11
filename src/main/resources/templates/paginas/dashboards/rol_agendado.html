@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_dashboard}"
+>
+<body>
+<section layout:fragment="content" th:each="single : ${list}">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="card" style="margin-top: 10px">
+                    <div class="card-header border-transparent">
+                        <h5 class="card-title">
+                            <i class="fas fa-tag"></i>
+                            ROLs AGENDADOS
+                        </h5>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table id="example2" class="table m-0">
+                                <thead>
+                                <tr class="text-center">
+                                    <th>#</th>
+                                    <th>ROL</th>
+                                    <th>Cliente</th>
+                                    <th>Status</th>
+                                    <th>Pagamento</th>
+                                    <th>Obs Interna</th>
+                                    <th>Obs Geral</th>
+                                    <th>Des geral</th>
+                                    <th>Sub Total</th>
+                                    <th>Desc.</th>
+                                    <th>Total</th>
+                                    <th>PGTO</th>
+                                    <th>Sal Dev.</th>
+                                    <th>Data</th>
+                                    <th>Ações</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbodyRol">
+                                <tr th:if="${single.pedTbl.empty}">
+                                    <td colspan="15"> Nenhum compra!</td>
+                                </tr>
+                                <div th:each="compra, row : ${single.pedTbl}" >
+                                    <tr th:id="${'compra'+compra.id}" data-widget="expandable-table" aria-expanded="false" class="text-center" th:style="'background:#'+ ${row.index % 2 == 0 ? 'e7e7e7' : 'white'}" >
+                                        <td>
+                                            <button type="button" class="btn btn-primary p-0">
+                                                <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <span th:text="${compra.id}"></span>
+                                        </td>
+                                        <td style="text-align: left;">
+                                            <a th:href="@{/usuarios/profile(id=${compra.usuario.id})}"
+                                               th:text="${compra.usuario == null || compra.usuario.nome == null ? '' : compra.usuario.nome}">
+                                            </a>
+                                        </td>
+                                        <td><a style="color: black!important;cursor: pointer;"
+                                               th:attr="onclick='ItemController.setStatusAll(\''+ ${compra.id} + '\', \''+ ${compra.status.value} + '\', '+ ${compra.usuario.id} + ', \''+ ${compra.usuario.nome}+ '\', \''+ ${compra.saldoAPagar}+ '\', \'compra\');'"
+                                               th:class="${compra.getStyleRol(compra.status)}+' product-description'"
+                                               th:text="${compra.status.value}">
+                                        </a>
+                                        </td>
+                                        <td>
+                                            <a style="color: black; cursor: pointer;"
+                                               th:disabled="${compra.statusPagamento.value == 'PAGO' || compra.statusPagamento.value == 'CANCELADO' || compra.statusPagamento.value == 'ESTORNADO'}"
+                                               th:attr="onclick='PagamentoController.addPagamento(\''+ ${compra.id} + '\', \''+ ${compra.statusPagamento.value} + '\', '+ ${compra.usuario.id} + ', \''+ ${compra.usuario.nome}+ '\', \''+ ${compra.saldoAPagar}+ '\', \'compra\');'"
+                                               th:class="${compra.getStylePagamento(compra.statusPagamento)}+' product-description'"
+                                               th:text="${compra.statusPagamento.value}">
+
+                                            </a>
+                                        </td>
+                                        <td><span th:title="${compra.internaobs}" th:text="${compra.getCorte(compra.internaobs, 11)}"></span></td>
+                                        <td><span th:title="${compra.descricao}" th:text="${compra.getCorte(compra.descricao, 11)}"></span></td>
+                                        <td><span th:text="${#numbers.formatDecimal(compra.desconto, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                        <td><span th:text="${#numbers.formatDecimal(compra.subTotal, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                        <td><span th:text="${#numbers.formatDecimal(compra.totalDescontos, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                        <td><span th:text="${#numbers.formatDecimal(compra.total, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                        <td><span th:text="${#numbers.formatDecimal(compra.totalPagamentos, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                        <td><span th:style="${compra.saldoAPagar > 0.00} ? 'color: red' : 'color: green' "
+                                                  th:text="${#numbers.formatDecimal(compra.saldoAPagar, 1, 'POINT', 2, 'COMMA')}"></span>
+                                        </td>
+                                        <td><span th:text="${#dates.format(compra.dataCad, 'dd-MM-yyyy HH:mm:ss')}"></span></td>
+                                        <td class="btn-group-sm text-center">
+                                            <a th:href="@{/compra/print(id=${compra.id})}" rel="noopener" target="_blank" class="btn btn-outline-dark btn-xs"
+                                               style="padding: 0 8px!important;"><i class="fas fa-print"></i></a>
+                                            <a th:if="${compra.status.value != 'CONCLUIDO' && compra.status.value != 'CANCELADO'}" th:href="@{${'/compra/edicao?id='+compra.id}}"
+                                               class="btn btn-outline-primary btn-xs" style="padding: 0 8px!important;"><i class="fas fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr th:id="${'rolItem'+compra.id}" class="expandable-body" th:if="${compra != null}">
+                                        <td colspan="15" th:style="'background-color:#'+ ${row.index % 2 == 0 ? '0000000f' : 'white'}">
+                                            <div class="p-0" >
+                                                <table class="table table-hover">
+                                                    <tbody>
+                                                    <tr class="expandable-body">
+                                                        <td>
+                                                            <div class="p-0">
+                                                                <table class="table table-hover">
+                                                                    <thead>
+                                                                    <tr style="color: #1c1c1c;font-size: 12px;" class="text-center">
+                                                                        <th>Item</th>
+                                                                        <th>Status</th>
+                                                                        <th>Serviço</th>
+                                                                        <th>Unid.</th>
+                                                                        <th>Qtd</th>
+                                                                        <th>V.Unit</th>
+                                                                        <th>SubTotal</th>
+                                                                        <th>Desc.</th>
+                                                                        <th>Total</th>
+                                                                        <th>Lacre</th>
+                                                                        <th>Prat</th>
+                                                                        <th>Lav</th>
+                                                                        <th>Data</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <tr th:if="${compra.items.empty}">
+                                                                        <td colspan="13"> Nenhum item adicionado!</td>
+                                                                    </tr>
+                                                                    <tr th:each="item : ${compra.items}" style="color: #000; font-size: 12px;" class="text-center">
+                                                                        <td><span th:text="${item.id}"></span></td>
+                                                                        <td>
+                                                                            <a style="color: black!important"
+                                                                               th:attr="onclick='ItemController.statusItemModal('+ ${item.id} + ', \''+ ${item.statusItem.value} + '\', '+ ${compra.usuario.id} + ','+ ${compra.id} + ', \''+ ${compra.usuario.nome} + '\', \''+ ${item.lavadoresAll} + '\', '+ ${item.prateleira.id} + ', \'compra\');'"
+                                                                               th:class="${item.getStyleItem(item.statusItem)}+' product-description'"
+                                                                               th:text="${item.statusItem.value}">
+                                                                            </a>
+                                                                        </td>
+                                                                        <td><span
+                                                                                th:text="${item.servico == null || item.servico.id == null ? '' : item.servico.nome}"></span>
+                                                                        </td>
+                                                                        <td><span th:text="${item.servico.unidade == null ? '' : item.servico.unidade.value}"></span>
+                                                                        </td>
+                                                                        <td><span th:text="${#numbers.formatDecimal(item.qtd, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                                                        <td><span th:text="${#numbers.formatDecimal(item.valor, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                                                        <td><span th:text="${#numbers.formatDecimal(item.subTotal, 1, 'POINT', 2, 'COMMA')}"></span>
+                                                                        </td>
+                                                                        <td><span th:text="${#numbers.formatDecimal(item.desconto, 1, 'POINT', 2, 'COMMA')}"></span>
+                                                                        </td>
+                                                                        <td><span th:text="${#numbers.formatDecimal(item.total, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                                                        <td><span th:text="${item.lacre}"></span></td>
+                                                                        <td><span th:text="${item.prateleira == null || item.prateleira.id == null ? '' : item.prateleira.nome}"></span></td>
+                                                                        <td><span th:text="${item.concatNome(item.lavadores)}"></span></td>
+                                                                        <td><span th:text="${#dates.format(item.dataRecente, 'dd-MM-yyyy HH:mm:ss')}"></span></td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="4" style="border-bottom: 1px solid black;">
+                                                            <div class="p-0">
+                                                                <table class="table table-hover">
+                                                                    <thead>
+                                                                    <tr style="color: #7c8f33;font-size: 12px;" class="text-center">
+                                                                        <th>Pagamento</th>
+                                                                        <th>Valor</th>
+                                                                        <th>Obs.</th>
+                                                                        <th>Data</th>
+                                                                        <th>Check</th>
+                                                                        <th style="color: #000;"><span th:title="${compra.internaobs}" th:text="${ compra.internaobs == null ? 'Obs Interna: -' :'Obs Interna: '+ compra.getCorte(compra.internaobs, 120)}"></span></th>
+                                                                        <th style="color: #000;"><span th:title="${compra.descricao}" th:text="${ compra.descricao == null ? 'Obs Geral: -' : 'Obs Geral: '+ compra.getCorte(compra.descricao, 120)}"></span></th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    <tr th:if="${compra.pagamentos.empty}">
+                                                                        <td colspan="3"> Nenhum pagamento!</td>
+                                                                    </tr>
+                                                                    <tr th:each="pgto : ${compra.pagamentos}" class="text-center"
+                                                                        th:style="'font-family: monospace; color: #000; font-size: 14px;' + ${compra.statusPagamento.value == 'ESTORNADO' ? 'text-decoration: line-through;' : ''}">
+                                                                        <td><span th:text="${pgto.tipoPagamento.value}"></span></td>
+                                                                        <td><span th:text="${#numbers.formatDecimal(pgto.valor, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                                                        <td><span th:title="${pgto.descricao}" th:text="${pgto.getCorte(pgto.descricao,40)}"></span></td>
+                                                                        <td><span th:text="${#dates.format(pgto.dataRecente, 'dd-MM-yyyy HH:mm:ss')}"></span></td>
+                                                                        <td>
+                                                                            <span th:if="${pgto.isCheck}" style="color: green"><ion-icon name="checkmark-outline"></ion-icon></span>
+                                                                            <span th:unless="${pgto.isCheck}" style="color: red"><ion-icon name="close-outline"></ion-icon></span>
+                                                                        </td>
+                                                                        <td colspan="2"></td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer clearfix" style="display: block;">
+                        <!--                <div class="row">-->
+                        <!--                    <div class="col-sm-2 col-6">-->
+                        <!--                        <div class="description-block border-right">-->
+                        <!--                            <span class="description-percentage text-dark"><i class="fas fa-caret-left"></i> 0%</span>-->
+                        <!--                            <h5 class="description-header" th:text="${single.getCountRols('EDICAO')}"></h5>-->
+                        <!--                            <span class="badge badge-dark description-text" style="color: black">EDICAO</span>-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+
+                        <!--                    <div class="col-sm-2 col-6">-->
+                        <!--                        <div class="description-block border-right">-->
+                        <!--                            <span class="description-percentage text-info"><i class="fas fa-caret-up"></i> 17%</span>-->
+                        <!--                            <h5 class="description-header" th:text="${single.getCountRols('LAVANDO')}"></h5>-->
+                        <!--                            <span class="badge badge-info description-text" style="color: black">LAVANDO</span>-->
+                        <!--                        </div>-->
+
+                        <!--                    </div>-->
+
+                        <!--                    <div class="col-sm-2 col-6">-->
+                        <!--                        <div class="description-block border-right">-->
+                        <!--                            <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>-->
+                        <!--                            <h5 class="description-header" th:text="${single.getCountRols('PRONTO_RETIRADA')}"></h5>-->
+                        <!--                            <span class="badge badge-warning description-text" style="color: black">PRONTO_RETIRADA</span>-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+                        <!--                    <div class="col-sm-1 col-6">-->
+                        <!--                        <div class="description-block border-right">-->
+                        <!--                            <span class="description-percentage text-success"><i class="fas fa-caret-down"></i> 0%</span>-->
+                        <!--                            <h5 class="description-header" th:text="${single.getCount('PAGO')}"></h5>-->
+                        <!--                            <span class="badge badge-success description-text" style="color: black">PAGO</span>-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+
+                        <!--                    <div class="col-sm-2 col-6">-->
+                        <!--                        <div class="description-block border-right">-->
+                        <!--                            <span class="description-percentage text-warning"><i class="fas fa-caret-up"></i> 20%</span>-->
+                        <!--                            <h5 class="description-header" th:text="${single.getCount('PGTO_PARCIAL')}"></h5>-->
+                        <!--                            <span class="badge badge-warning description-text" style="color: black">PGTO_PARCIAL</span>-->
+                        <!--                        </div>-->
+
+                        <!--                    </div>-->
+
+                        <!--                    <div class="col-sm-2 col-6">-->
+                        <!--                        <div class="description-block border-right">-->
+                        <!--                            <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>-->
+                        <!--                            <h5 class="description-header" th:text="${single.getCount('PGTO_PENDENTE')}"></h5>-->
+                        <!--                            <span class="badge badge-danger description-text" style="color: black">PGTO_PENDENTE</span>-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+
+                        <!--                    <div class="col-sm-1 col-6">-->
+                        <!--                        <div class="description-block">-->
+                        <!--                            <span class="description-percentage text-gray-dark"><i class="fas fa-caret-down"></i> 0%</span>-->
+                        <!--                            <h5 class="description-header" th:text="${single.rolsAbertos.size}"></h5>-->
+                        <!--                            <span class="description-text" >QTD RolS</span>-->
+                        <!--                        </div>-->
+                        <!--                    </div>-->
+                        <!--                </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modaais-->
+    <div th:replace="~{paginas/items/modais/Item_status_modal}"></div>
+    <div th:replace="~{paginas/items/modais/Item_all_status_modal}"></div>
+    <div th:replace="~{paginas/pagamentos/modais/pagamento_add_modal}"></div>
+    <!-- /.Modaais-->
+</section>
+</body>
+</html>

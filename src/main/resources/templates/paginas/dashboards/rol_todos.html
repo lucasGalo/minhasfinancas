@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_rol-linha}"
+>
+<body>
+<section layout:fragment="content" th:each="single : ${list}">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                    <div class="card" style="margin-top: 10px;">
+                        <div class="card-header">
+                            <h5 class="card-title">
+                                <i class="fas fa-copy"></i>
+                                TODOS ROL
+                            </h5>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table id="rolTodos" class="table table-bordered table-striped">
+                                <thead>
+                                <tr class="text-center">
+                                    <th>Rol</th>
+                                    <th>Cliente</th>
+                                    <th>Status</th>
+                                    <th>Pagamento</th>
+                                    <th>Obs Interna</th>
+                                    <th>Obs Geral</th>
+                                    <th>Des geral</th>
+                                    <th>Sub Total</th>
+                                    <th>Desc.</th>
+                                    <th>Total</th>
+                                    <th>PGTO</th>
+                                    <th>Sal Dev.</th>
+                                    <th>Data</th>
+                                    <th>Ações</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="compra : ${single.pedTbl}" th:id="${'compra'+compra.id}">
+                                    <td><span th:text="${compra.id}"></span></td>
+                                    <td style="text-align: left;">
+                                        <a th:href="@{/usuarios/profile(id=${compra.usuario.id})}"
+                                           th:text="${compra.usuario == null || compra.usuario.nome == null ? '' : compra.usuario.nome}">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a style="color: black!important;cursor: pointer;"
+                                           th:attr="onclick='ItemController.setStatusAll(\''+ ${compra.id} + '\', \''+ ${compra.status.value} + '\', '+ ${compra.usuario.id} + ', \''+ ${compra.usuario.nome}+ '\', \''+ ${compra.saldoAPagar}+ '\', \'compra-linha\');'"
+                                           th:class="${compra.getStyleRol(compra.status)}+' product-description'"
+                                           th:text="${compra.status.value}">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a style="color: black; cursor: pointer;"
+                                           th:disabled="${compra.statusPagamento.value == 'PAGO' || compra.statusPagamento.value == 'CANCELADO' || compra.statusPagamento.value == 'ESTORNADO'}"
+                                           th:attr="onclick='PagamentoController.addPagamento(\''+ ${compra.id} + '\', \''+ ${compra.statusPagamento.value} + '\', '+ ${compra.usuario.id} + ', \''+ ${compra.usuario.nome}+ '\', \''+ ${compra.saldoAPagar}+ '\', \'compra-linha\');'"
+                                           th:class="${compra.getStylePagamento(compra.statusPagamento)}+' product-description'"
+                                           th:text="${compra.statusPagamento.value}">
+                                        </a>
+                                    </td>
+                                    <td><span th:title="${compra.internaobs}" th:text="${compra.getCorte(compra.internaobs, 11)}"></span></td>
+                                    <td><span th:title="${compra.descricao}" th:text="${compra.getCorte(compra.descricao, 11)}"></span></td>
+                                    <td><span th:text="${#numbers.formatDecimal(compra.desconto, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                    <td><span th:text="${#numbers.formatDecimal(compra.subTotal, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                    <td><span th:text="${#numbers.formatDecimal(compra.totalDescontos, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                    <td><span th:text="${#numbers.formatDecimal(compra.total, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                    <td><span th:text="${#numbers.formatDecimal(compra.totalPagamentos, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                    <td><span th:style="${compra.saldoAPagar > 0.00} ? 'color: red' : 'color: green' "
+                                              th:text="${#numbers.formatDecimal(compra.saldoAPagar, 1, 'POINT', 2, 'COMMA')}"></span>
+                                    </td>
+                                    <td><span th:text="${#dates.format(compra.dataCad, 'dd-MM-yyyy HH:mm:ss')}"></span></td>
+                                    <td class="btn-group-sm text-center">
+                                        <a th:href="@{/compra/print(id=${compra.id})}" rel="noopener" target="_blank" class="btn btn-outline-dark btn-xs"
+                                           style="padding: 0 8px!important;"><i class="fas fa-print"></i></a>
+                                        <a th:if="${compra.status.value != 'CONCLUIDO' && compra.status.value != 'CANCELADO'}" th:href="@{${'/compra/edicao?id='+compra.id}}" class="btn btn-outline-primary btn-xs" style="padding: 0 8px!important;"><i
+                                                class="fas fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modaais-->
+    <div th:replace="~{paginas/items/modais/Item_all_status_modal}"></div>
+    <div th:replace="~{paginas/pagamentos/modais/pagamento_add_modal}"></div>
+    <!-- /.Modaais-->
+</section>
+</body>
+</html>

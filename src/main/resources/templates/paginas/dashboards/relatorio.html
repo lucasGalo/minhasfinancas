@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_relatorio}"
+>
+<body>
+<section layout:fragment="content" th:each="single : ${list}" style="padding: 0!important;">
+
+    <div class="container-fluid" style="padding: 0!important;">
+        <!-- Resumo-->
+        <div th:replace="~{paginas/dashboards/tabelas/resumo_tabela}"></div>
+        <!-- /.Resumo-->
+
+        <!-- Modaais-->
+        <div th:replace="~{paginas/dashboards/modais/consulta}"></div>
+        <!-- /.Modaais-->
+    </div>
+</section>
+</body>
+</html>

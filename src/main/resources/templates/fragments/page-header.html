@@ -1,0 +1,10 @@
+<div layout:fragment="header">
+    <h1>
+        <span th:text="${FORM_OBJECT_NAME}"></span>
+        <small th:if="${single.persistido} ? TITLE_EDIT : TITLE_NEW"></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a th:href="@{/}"><i class="fa fa-home"></i> </a></li>
+        <li class="active" th:text="${FRM}"></li>
+    </ol>
+</div>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_dashboard}"
+>
+<body>
+<section layout:fragment="content" th:each="single : ${list}" style="padding: 0!important;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            <i class="fas fa-users"></i>
+                            TODOS CLIENTES
+                        </h5>
+                        <div class="card-tools">
+                            <a title="novo" type="button" class="btn btn-success btn-sm pull-right" data-placement="top" data-toggle="modal" data-target="#modal-xl">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+
+                        <table id="clienteTabela" class="table table-bordered table-striped">
+                            <thead>
+                            <tr class="text-center">
+                                <th>Ações</th>
+                                <th>Nome</th>
+                                <th>Cpf/Cnpj</th>
+                                <th>Endereço</th>
+                                <th>Tel.1</th>
+                                <th>Tel.2</th>
+                                <th>Bairro</th>
+                                <th>Cidade</th>
+                                <th>Data</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${list.empty}">
+                                <td colspan="9"> Não há dados para listar!</td>
+                            </tr>
+                            <tr th:each="cliente : ${single.clientes}">
+                                <td class="btn-group-sm text-center">
+                                    <a type="button" class="btn bg-orange color-palette" style="padding: 1px!important"
+                                       th:href="@{/usuarios/profile(id=${cliente.id})}">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a type="button" class="btn btn-info" style="margin-left:10px;padding: 1px!important"
+                                       th:href="@{/compra/new(id=${cliente.id})}">
+                                        <i class="fa fa-plus-square"></i>
+                                    </a>
+                                </td>
+                                <td><span th:text="${cliente.nome}"></span></td>
+                                <td><span class="cpfcnpj" th:text="${cliente.identificacao}"></span></td>
+                                <td>
+                                    <span th:text="${cliente.endereco == null || cliente.endereco.logradouro == null ? '' :cliente.endereco.logradouro}"></span>
+
+                                    <span th:text="${cliente.endereco == null || cliente.endereco.numero == null ? '' : ', n°'+cliente.endereco.numero}"></span>
+
+                                    <span th:text="${cliente.endereco == null || cliente.endereco.complemento == null ? '' : ', Comp:'+cliente.endereco.complemento}"></span>
+                                </td>
+                                <td><span th:text="${cliente.telefone1}"></span></td>
+                                <td><span th:text="${cliente.telefone2}"></span></td>
+                                <td><span th:text="${cliente.endereco == null || cliente.endereco.bairro == null ? '' : cliente.endereco.bairro}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="${cliente.endereco == null || cliente.endereco.cidade == null || cliente.endereco.cidade == null ? '' : cliente.endereco.cidade}"></span>
+                                </td>
+                                <td><span th:text="${#dates.format(cliente.dataRecente, 'dd-MM-yyyy HH:mm:ss')}"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modaais-->
+    <div th:replace="~{paginas/usuarios/modais/cliente_modal}"></div>
+    <!-- /.Modaais-->
+</section>
+<div layout:fragment="script">
+    <!--utilitários-->
+    <script th:src="@{/paginas/js/utils/viacep.js}"></script>
+</div>
+</body>
+</html>

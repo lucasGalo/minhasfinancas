@@ -1,0 +1,25 @@
+referencia:
+https://isolution.pro/pt/t/spring-boot/spring-boot-enabling-https/spring-boot-habilitando-https
+
+keytool -genkey -alias tomcat -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
+
+senha:
+GALo9244396
+
+nome:
+lucas
+
+organizacional:
+atimosphera
+
+empresa:
+atimosphera
+
+cidade:
+ribeirao preto
+
+estado:
+sao paulo
+
+código do pais:
+br

@@ -1,0 +1,98 @@
+<div class="card-body">
+
+    <div class="card card-primary card-outline card-outline-tabs">
+        <div class="card-header p-0 border-bottom-0">
+            <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
+                <li class="nav-item" th:each="maps : ${list.get(0).ComprasPorAno}">
+                    <a th:class="'nav-link '+${list.get(0).AnoAtual == maps.key ? 'active show': ''}"
+                       th:id="${'custom-tabs-four-'+maps.key+'-tab'}" data-toggle="pill"
+                       th:href="${'#custom-tabs-four-'+maps.key}" role="tab"
+                       th:attr="aria-controls=${'custom-tabs-four-'+maps.key}, aria-selected=${list.get(0).AnoAtual == maps.key ? true: false}"
+                       th:text="${maps.key}"></a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="custom-tabs-four-tabContent">
+                <div th:class="'tab-pane fade '+${list.get(0).AnoAtual == ano.key ? 'active show': ''}"
+                     th:each="ano : ${list.get(0).ComprasPorAno}" th:id="${'custom-tabs-four-'+ano.key}"
+                     role="tabpanel" th:attr="aria-labelledby=${'custom-tabs-four-'+ano.key+'-tab'}">
+
+
+                    <div class="card card-primary card-tabs">
+                        <div class="card-header p-0 pt-1">
+                            <ul class="nav nav-tabs" id="custom-tabs-two-tab" role="tablist">
+                                <li class="pt-2 px-3">
+                                    <h3 class="card-title">Despesas</h3>
+                                </li>
+                                <li class="nav-item" th:each="mes : ${list.get(0).meses}">
+                                    <a th:class="'nav-link '+${list.get(0).MesAtual == mes.value ? 'active show': ''}"
+                                       th:id="${'custom-tabs-two-'+mes.value+'-tab-'+ano.key}" data-toggle="pill"
+                                       th:href="${'#custom-tabs-two-'+mes.value+'-'+ano.key}" role="tab"
+                                       th:attr="aria-controls=${'custom-tabs-two-'+mes.value+'-'+ano.key}, aria-selected=${list.get(0).MesAtual == mes.value ? true: false}"
+                                       th:text="${mes.value}"></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="custom-tabs-two-tabContent">
+                                <div th:class="'tab-pane fade '+${list.get(0).MesAtual == compras.key ? 'active show': ''}"
+                                     th:each="compras : ${list.get(0).getDespesas(ano.value).ListDeComprasPorMes}"
+                                     th:id="${'custom-tabs-two-'+compras.key+'-'+ano.key}"
+                                     role="tabpanel" th:attr="aria-labelledby=${'custom-tabs-two-'+compras.key+'-tab-'+ano.key}">
+                                    <table id="example22" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Categoria</th>
+                                            <th>Descrição</th>
+                                            <th>Dt</th>
+                                            <th>#Valor</th>
+                                            <th>Status</th>
+                                            <th class="text-center">Ações</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:if="${compras.value.empty}">
+                                            <td colspan="6"><span th:text="${'Não há dados para listar no mês de: '+compras.key}"></span></td>
+                                        </tr>
+                                        <tr th:each="compra : ${compras.value}">
+                                            <td th:style="'color:'+${compra.categoria.cor}">
+                                                <ion-icon size="small" th:attr="name=${compra.categoria.icone.value}"></ion-icon>
+                                                <span th:text="${compra.categoria.nome}"></span></td>
+                                            <td><span th:text="${compra.nome}"></span></td>
+                                            <td><span th:text="${#dates.format(compra.date, 'dd-MM-yyyy HH:mm:ss')}"></span></td>
+                                            <td><span th:text="${#numbers.formatDecimal(compra.vlr, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                            <td><span th:text="${compra.statusCompra.value}"></span></td>
+
+                                            <td class="btn-group-sm text-center">
+                                                <a type="button" class="btn btn-info"
+                                                   th:href="@{/compras/editar(id=${compra.id})}">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <a type="button" class="btn btn-danger"
+                                                   th:href="@{/compras/remover(id=${compra.id})}">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot style="vertical-align:bottom">
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>Total</td>
+                                            <td><span th:text="${#numbers.formatDecimal(list.get(0).getTotalMes(list.get(0).getDespesas(ano.value), compras.key), 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,85 @@
+<div class="tab-pane" id="clientePane">
+<div class="row">
+    <div class="row col-md-12">
+        <div class="col-md-2">
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+                <div class="card-body box-profile" style="padding: 1.25rem!important; text-transform: capitalize;">
+
+                    <h3 class="profile-username text-center" th:text="${single.nome}"></h3>
+
+                    <p class="text-muted text-center" data-inputmask='"mask": "(99) 9 9999-9999"' data-mask
+                       th:text="${single.telefone1 == null ? '' : single.telefone1}"></p>
+
+                    <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                            <b>QTD compra</b> <a class="float-right" th:text="${single.compra.size}"></a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Pgto total</b> <a class="float-right"
+                                                 th:text="${#numbers.formatDecimal(single.pgtoAllRols, 1, 'POINT', 2, 'COMMA')}"></a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Saldo Devedor</b> <a class="float-right" th:style="${single.saldoAllRols > 0} ? 'color: red' : 'color: green' "
+                                                    th:text="${#numbers.formatDecimal(single.saldoAllRols, 1, 'POINT', 2, 'COMMA')}"></a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Último compra</b> <a class="float-right"
+                                                 th:text="${single.ultimoRol == null ? '-' : #dates.format(single.ultimoRol.dataRecente, 'dd-MM-yyyy')}"> </a>
+                        </li>
+                    </ul>
+
+                    <!--                        <a href="#" class="btn btn-primary btn-block"><b>Ação</b></a>-->
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+        <!-- /.card -->
+        <div class="col-md-10">
+            <!-- About Me Box -->
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Informações</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body col-md-12" style="padding: 1.25rem!important; text-transform: capitalize;">
+                    <div class="col-md-4">
+                        <strong><i class="fas fa-book mr-1"></i> Contato</strong>
+
+                        <p class="text-muted">
+                            Phone 1: <span class="telefone"
+                                           th:text="${single.telefone1 == null ? '' : single.telefone1}"></span>
+                            <br>
+                            Phone 2: <span class="telefone"
+                                           th:text="${single.telefone2 == null ? '' : single.telefone2}"></span>
+                            <br>
+                            E-mail: <span th:text="${single.email == null ? '' : single.email}"></span>
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="col-md-4">
+                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Localização</strong>
+
+                        <p class="text-muted">
+                            <span th:text="${single.endereco == null || single.endereco.logradouro == null ? '' : single.endereco.logradouro}"></span>
+                            <span th:text="${single.endereco == null || single.endereco.numero == null ? '' : single.endereco.numero}"></span>
+                            <span th:text="${single.endereco == null || single.endereco.complemento == null ? '' : 'Comp: '+single.endereco.complemento}"></span>
+                        </p>
+
+                        <p class="text-muted">
+
+                            <span th:text="${single.endereco == null || single.endereco.condominio == null ? '' : 'Cond: '+single.endereco.condominio}"></span>
+                            <br>
+                            CEP: <span th:text="${single.endereco == null || single.endereco.cep == null ? '' : single.endereco.cep}"></span>
+                            <br>
+                            BAIRRO:<span th:text="${single.endereco == null || single.endereco.bairro == null ? '' : single.endereco.bairro}"></span>
+                            <br>
+                            CIDADE: <span th:text="${single.endereco == null || single.endereco.cidade == null  ? '' : single.endereco.cidade}"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

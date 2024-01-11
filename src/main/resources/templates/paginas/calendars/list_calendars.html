@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_list}"
+>
+<body>
+<section layout:fragment="content" th:each="single : ${list}">
+    <input type="hidden" th:hidden="true" th:value="${single.getCalendarsToJson}" id="dataCalendars">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card card-primary">
+                <div class="card-body p-0">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="sticky-top mb-3">
+                <div class="card">
+                    <div th:replace="~{paginas/calendars/despesas/despesas}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div layout:fragment="script">
+        <script th:src="@{/paginas/js/calendars.js}"></script>
+</div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_form}"
+>
+<body>
+<section layout:fragment="content">
+    <form role="form" th:action="${single.persistido} ? ${EDITAR_URL} : ${NEW_URL}" method="post" th:object="${single}">
+        <div class="card-header">
+            <h3 class="card-title" th:text="${FRM}"></h3>
+            <div class="card-tools">
+                <button type="submit" class="btn btn-info" data-placement="top" title="salvar e retornar">
+                    <i class="fa fa-save"></i>
+                </button>
+                <a type="button" class="btn btn-warning" th:href="${LIST_URL}" data-placement="top" title="retornar">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{persistido}">
+            <input type="hidden" name="usuario.id" th:value="${#authentication.getPrincipal().getId()}">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="selectStatus">Status da renda?</label>
+                        <select id="selectStatus" data-placeholder="Qual status da renda?"
+                                tabindex="-1" aria-hidden="true" class="form-control"
+                                th:field="*{statusRenda}" required>
+                            <option value="">Qual status da renda?</option>
+                            <option th:each="status: ${statusRendalist}"
+                                    th:value="${status}"
+                                    th:text="${status.value}"
+                                    th:selected="(*{statusRenda} != null ? ${status.cod} == *{statusRenda.cod} : false)">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="selectTipo">Tipo associado?</label>
+                        <select id="selectTipo" data-placeholder="Qual tipo associado?"
+                                tabindex="-1" aria-hidden="true" class="form-control" th:field="*{tipo}" required>
+                            <option value="">Qual tipo associado?</option>
+
+                            <option th:each="tipo: ${tipos}"
+                                    th:value="${{tipo}}"
+                                    th:text="${tipo.nome}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputNome">Nome</label>
+                        <input type="text" class="form-control" id="inputNome" placeholder="Informe o nome"
+                               th:field="*{nome}" required/>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputDescricao">Descrição</label>
+                        <input type="text" class="form-control" id="inputDescricao"
+                               placeholder="Informe uma descrição"
+                               th:field="*{descricao}"/>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputValor">Valor</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">R$:</span>
+                            </div>
+                            <input type="text" class="form-control money" id="inputValor" name="vlr" required autocomplete="off" placeholder="0,00"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Dt renda:</label>
+                        <div class="input-group date">
+                            <input type="datetime-local" class="form-control pull-right" name="date" required/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Ativo: </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optionRadioInline" value="true"
+                                   th:checked="*{ativo}" th:field="*{ativo}" th:value="${true}"/>sim
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optionRadioInline" value="false"
+                                   th:checked="*{ativo != true} " th:field="*{ativo}" th:value="${false}"/>não
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+</body>
+</html>

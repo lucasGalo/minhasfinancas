@@ -1,0 +1,20 @@
+.noprint{
+   display:none;
+}
+
+div .card{
+margin-bottom: 0px;
+}
+
+div .card-body{
+    padding: 0;
+}
+
+.table .itens{
+    padding: 0.35rem;
+}
+
+.card-body>#tableItens{
+    border-bottom: 1px solid #cfcfcf;
+    margin-bottom: 40px;
+}

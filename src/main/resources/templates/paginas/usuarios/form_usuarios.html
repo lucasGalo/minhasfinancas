@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_form}"
+>
+<body>
+<section layout:fragment="content">
+    <form role="form" th:action="${single.persistido} ? ${EDITAR_URL} : ${NEW_URL}" method="post" th:object="${single}">
+        <div class="card-header">
+            <h3 class="card-title" th:text="${FRM}"></h3>
+            <div class="card-tools">
+                <button type="submit" class="btn btn-info" data-placement="top" title="salvar e retornar">
+                    <i class="fa fa-save"></i>
+                </button>
+                <a type="button" class="btn btn-warning" th:href="${LIST_URL}" data-placement="top" title="retornar">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{persistido}">
+            <input type="hidden" th:field="*{img}">
+
+            <!-- Dados Pessoais  -->
+            <h4 class="modal-title">Dados Pessoais</h4>
+            </br>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputNome">Nome/Razão social*</label>
+                        <input type="text" class="form-control" id="inputNome" placeholder="Informe o nome"
+                               th:attr="onblur='UsuarioController.isNome(\''+ *{nome} + '\')'"
+                               th:field="*{nome}" required/>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="inputNomeContato">Nome de contato</label>
+                        <input type="text" class="form-control" id="inputNomeContato" placeholder="Nome de contato"
+                               th:field="*{nomecontato}"/>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="inputEmail">Email*</label>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            </div>
+                            <input type="email" class="form-control" id="inputEmail" placeholder="E-mail"
+                                   th:attr="onblur='UsuarioController.isEmail(\''+ *{email} + '\')'"
+                                   th:field="*{email}" required/>
+                        </div>
+                    </div>
+                </div>
+
+                <div th:if="*{persistido == false}" class="col-md-1">
+                    <div class="form-group">
+                        <label for="inputSenha">Senha*</label>
+                        <input type="password" class="form-control" id="inputSenha" placeholder="Senha"
+                               th:field="*{senha}"/>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="cpfcnpj">CPF/CNPJ*</label>
+                        <input type="text" class="form-control" id="cpfcnpj"
+                               th:field="*{identificacao}" required placeholder="Informe o cpf">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="inputRG">RG</label>
+                        <input type="text" class="form-control" id="inputRG"
+                               th:field="*{rg}" placeholder="Informe o rg"
+                               data-inputmask='"mask": "99.999.999-9"'>
+                    </div>
+                </div>
+
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>Data de nascimento:</label>
+                        <div class="input-group date">
+                            <input type="date" class="form-control pull-right" th:field="*{nascimento}"/>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Gênero*</label>
+                        <div class="input-group">
+                            <label class="radio-inline">
+                                <input type="radio" name="optionRadioInline"
+                                       th:checked="*{genero == 'FEMININO' || genero == null}" th:field="*{genero}"
+                                       value="FEMININO"/>FEMININO
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionRadioInline"
+                                       th:checked="*{genero == 'MASCULINO'}" th:field="*{genero}" value="MASCULINO"/>MASCULINO
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionRadioInline"
+                                       th:checked="*{genero == 'EMPRESA'}" th:field="*{genero}" value="EMPRESA"/>EMPRESA
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Endereço -->
+            <hr>
+            <h4 class="modal-title">Endereço</h4>
+            </br>
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label for="inputCep">Cep</label>
+                        <input type="text" class="form-control cep" id="inputCep"
+                               data-inputmask='"mask": "99999-999"' placeholder="CEP"
+                               th:field="*{endereco.cep}" onblur="pesquisacep(this.value)"/>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputLogradouro">Rua/Av*</label>
+                        <input type="text" class="form-control" id="inputLogradouro"
+                               placeholder="Informe a rua ou Avenida"
+                               th:field="*{endereco.logradouro}" required/>
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label for="inputNumero">Número*</label>
+                        <input type="text" class="form-control" id="inputNumero"
+                               placeholder="Número"
+                               th:field="*{endereco.numero}" required/>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="inputComplemento">Complemento</label>
+                        <input type="text" class="form-control" id="inputComplemento"
+                               placeholder="Informe o complemento"
+                               th:field="*{endereco.complemento}"/>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="inputCondominio">Condominio</label>
+                        <input type="text" class="form-control" id="inputCondominio"
+                               placeholder="Informe o condominio"
+                               th:field="*{endereco.condominio}"/>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputBairro">Bairro*</label>
+                        <input type="text" class="form-control" id="inputBairro" placeholder="Informe o bairro"
+                               th:field="*{endereco.bairro}" required/>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputCidade">Cidade*</label>
+                        <input type="text" class="form-control" id="inputCidade" placeholder="Informe a cidade"
+                               th:field="*{endereco.cidade}" required/>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <h4 class="modal-title">Telefones</h4>
+            </br>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="inputTelefone1">Tel. 1*</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="inputTelefone1"
+                                   data-inputmask='"mask": "(99) 9 9999-9999"'
+                                   th:field="*{telefone1}" required/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="inputTelefone2">Tel. 2</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="inputTelefone2"
+                                   data-inputmask='"mask": "(99) 9 9999-9999"'
+                                   th:field="*{telefone2}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="selectPerfil">Perfis associadas?</label>
+                        <select id="selectPerfil" data-placeholder="Qual perfis associadas?"
+                                tabindex="-1" aria-hidden="true" style="width: 100%;" required
+                                class="form-control select2 select2-hidden-accessible" multiple name="perfis">
+
+                            <option th:each="perfil: ${perfillist}"
+                                    th:value="${perfil.cod}"
+                                    th:text="${perfil.value}"
+                                    th:selected="(*{perfis} != null ? ${single.perfis.contains(perfil.cod)}: false)">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Ativo: </label>
+                        <div class="input-group">
+                            <label class="radio-inline">
+                                <input type="radio" name="optionRadioInline" value="true"
+                                       th:checked="*{ativo}" th:field="*{ativo}" th:value="${true}"/>sim
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="optionRadioInline" value="false"
+                                       th:checked="*{ativo != true} " th:field="*{ativo}" th:value="${false}"/>não
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </form>
+</section>
+<div layout:fragment="script">
+    <!--utilitários-->
+    <script th:src="@{/js/Utils.js}"></script>
+    <script th:src="@{/paginas/js/utils/viacep.js}"></script>
+
+    <!-- Clients -->
+    <script th:src="@{/js/clients/Fetch.js}"></script>
+
+    <!--Controllers-->
+    <script th:src="@{/paginas/js/controllers/UsuarioController.js}"></script>
+</div>
+</body>
+</html>

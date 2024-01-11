@@ -1,0 +1,84 @@
+<div class="row noprint">
+    <div class="col-12 col-sm-6 col-md-2">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Total de serviços</span>
+                <span class="info-box-number" th:text="${single.allItens.size}"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-2">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-info elevation-1"><i class="far fa-comment"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Lavando</span>
+                <span class="info-box-number" th:text="${single.allLavando.size}"></span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <div class="clearfix hidden-md-up"></div>
+    <div class="col-12 col-sm-6 col-md-2">
+        <div class="info-box">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-tag"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Retirar</span>
+                <span class="info-box-number" th:text="${single.allRetirar.size}"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-2">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-success elevation-1"><i class="far fa-heart"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Concluidos</span>
+                <span class="info-box-number" th:text="${single.allConcluido.size}"></span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <div class="clearfix hidden-md-up"></div>
+    <div class="col-12 col-sm-6 col-md-2">
+        <div class="info-box">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-trash"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Cancelados</span>
+                <span class="info-box-number" th:text="${single.allCancelado.size}"></span>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix hidden-md-up"></div>
+    <div class="col-12 col-sm-6 col-md-2">
+        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-success elevation-1"><i
+                                    class="fas fa-shopping-cart"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Qtd compra</span>
+                <span class="info-box-number" th:text="${single.pedMesAtual != null ? single.pedMesAtual.size : '0'}"></span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <div class="col-12 col-sm-6 col-md-2">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Novos clientes no mês</span>
+                <span class="info-box-number" th:text="${single.usuariosNovosQtd}"></span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_form}"
+>
+<body>
+<section layout:fragment="content">
+    <form role="form" th:action="${single.persistido} ? ${EDITAR_URL} : ${NEW_URL}" method="post" th:object="${single}">
+        <div class="card-header">
+            <h3 class="card-title" th:text="${FRM}"></h3>
+            <div class="card-tools">
+                <button type="submit" class="btn btn-info" data-placement="top" title="salvar e retornar">
+                    <i class="fa fa-save"></i>
+                </button>
+                <a type="button" class="btn btn-warning" th:href="${LIST_URL}" data-placement="top" title="retornar">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{persistido}">
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputCod">Código</label>
+                        <input type="number" class="form-control" id="inputCod"
+                               placeholder="Informe o código"
+                               th:field="*{cod}" required/>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputDesc">Descrição</label>
+                        <input type="text" class="form-control" id="inputDesc" placeholder="Informe a descrição"
+                               th:field="*{descricao}"/>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputQtd">Qtd</label>
+                        <input type="number" class="form-control" id="inputQtd" placeholder="Informe o qtd de peças"
+                               th:field="*{qtd}"/>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputVlrUni">Valor Uni.</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">R$:</span>
+                            </div>
+                            <input type="text" class="form-control money" id="inputVlrUni" name="vlrUni" required autocomplete="off" placeholder="0,00"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputVlrTotal">Valor Total</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">R$:</span>
+                            </div>
+                            <input type="text" class="form-control money" id="inputVlrTotal" name="vlrTotal" required autocomplete="off" placeholder="0,00"/>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="selectCompra">Compra associado?</label>
+                        <select id="selectCompra" data-placeholder="Qual compra associada?"
+                                tabindex="-1" aria-hidden="true" class="form-control"
+                                th:field="*{compra}">
+                            <option value="">Qual compra associado?</option>
+                            <option th:each="compra: ${compras}"
+                                    th:value="${{compra}}"
+                                    th:text="${compra.nome}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Ativo: </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optionRadioInline" value="true"
+                                   th:checked="*{ativo}" th:field="*{ativo}" th:value="${true}"/>sim
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optionRadioInline" value="false"
+                                   th:checked="*{ativo != true} " th:field="*{ativo}" th:value="${false}"/>não
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+</body>
+</html>

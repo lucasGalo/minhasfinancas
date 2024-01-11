@@ -1,0 +1,56 @@
+<div class="card-body">
+
+    <div class="card card-primary card-outline card-outline-tabs">
+
+        <div class="card-body">
+            <div class="tab-content" id="custom-tabs-two-tabContent" th:each="ano : ${single.getGruppingProAno()}">
+
+                <div th:class="'tab-pane fade '+${single.MesAtual == comprasProMes.key && ano.key == single.AnoAtual? 'active show': ''}"
+                     th:each="comprasProMes : ${single.getListDeComprasPorMes(ano.key)}"
+                     th:id="${'custom-tabs-two-'+comprasProMes.key+'-'+ano.key}"
+                     role="tabpanel" th:attr="aria-labelledby=${'custom-tabs-two-'+comprasProMes.key+'-tab-'+ano.key}">
+
+                    <div class="row col-12" style="text-align: center">
+
+                        <div class="col-4" style="font-weight: bold">
+                            Renda
+                            <address style="color: blue; font-size: 18px; font-weight: 550; margin: 0px !important" th:text="${#numbers.formatDecimal(single.getTotalMes(comprasProMes.value, 'RendaDTO'), 1, 'POINT', 2, 'COMMA')+'R$'}">
+                                0.00R$
+                            </address>
+                        </div>
+                        <div class="col-4" style="font-weight: bold">
+                            Despesas
+                            <address style="color: red; font-size: 18px; font-weight: 550; margin: 0px !important" th:text="${#numbers.formatDecimal(single.getTotalMes(comprasProMes.value, 'CompraDTO'), 1, 'POINT', 2, 'COMMA')+'R$'}">
+                            </address>
+                        </div>
+                        <div class="col-4" style="font-weight: bold">
+                            Total
+                            <address th:style="'color:' +${single.getTotal(comprasProMes.value)> 0.00? 'blue': 'red'}+'; font-size: 18px; font-weight: 550; margin: 0px !important'" th:text="${#numbers.formatDecimal(single.getTotal(comprasProMes.value), 1, 'POINT', 2, 'COMMA')+'R$'}">
+
+                            </address>
+                        </div>
+                    </div>
+
+                    <table class="table" th:each="diaAdia : ${single.getListMesDiaAdia(comprasProMes.value)}"
+                           style="margin-bottom: 0px !important">
+                        <thead>
+                        <tr style="background: black; color: white; font-family: monospace; font-size: 12px">
+                            <th th:text="${diaAdia.key}+' ('+ ${#dates.dayOfWeekName(diaAdia.key)+')'}"></th>
+                            <th th:text="${#numbers.formatDecimal(single.getTotal(diaAdia.value), 1, 'POINT', 2, 'COMMA')+'R$'}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${!diaAdia.value.empty}" th:each="compra : ${diaAdia.value}" style="font-family: monospace">
+                            <td th:style="'color:'+${compra.cor}+';width: 80%'">
+                                <ion-icon size="small" th:attr="name=${compra.icone.value}"></ion-icon>
+                                <span th:text="${compra.categoria}" style="color: black; font-weight: bold; font-size: 18px "></span>
+                                <span th:text="${'('+compra.nome+')'}" style="color: black;"></span>
+                            </td>
+                            <td><span th:text="${#numbers.formatDecimal(compra.vlr, 1, 'POINT', 2, 'COMMA')+'R$'}" th:style="'color:' +${compra.mae == 'RendaDTO'? 'blue': 'black'}+'; font-weight: bold; font-size: 18px '"></span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

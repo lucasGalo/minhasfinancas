@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_dashboard}"
+>
+<body>
+<section layout:fragment="content" th:each="single : ${list}">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="card" style="margin-top: 10px">
+                    <div class="card-header border-transparent">
+                        <h5 class="card-title">
+                            <i class="fas fa-tag"></i>
+                            ROLs PRONTOS PARA RETIRADA
+                        </h5>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table id="example2" class="table m-0">
+                                <thead>
+                                <tr class="text-center">
+                                    <th>#</th>
+                                    <th>ROL</th>
+                                    <th>Cliente</th>
+                                    <th>Endereço</th>
+                                    <th>Tel.1</th>
+                                    <th>Status</th>
+                                    <th>Pagamento</th>
+                                    <th>Total</th>
+                                    <th>PGTO</th>
+                                    <th>Sal Dev.</th>
+                                    <th>Dt criação</th>
+                                    <th>Dt entrega</th>
+                                    <th>Ações</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbodyRol">
+                                <tr th:if="${single.pedTbl.empty}">
+                                    <td colspan="15"> Nenhum compra!</td>
+                                </tr>
+                                <div th:each="compra, row : ${single.pedTbl}">
+                                    <tr th:id="${'compra'+compra.id}" data-widget="expandable-table" aria-expanded="true" class="text-center"
+                                        th:style="'background:#'+ ${row.index % 2 == 0 ? 'e7e7e7' : 'white'}">
+                                        <td>
+                                            <button type="button" class="btn btn-primary p-0">
+                                                <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <span th:text="${compra.id}"></span>
+                                        </td>
+                                        <td style="text-align: left;">
+                                            <a th:href="@{/usuarios/profile(id=${compra.usuario.id})}"
+                                               th:text="${compra.usuario == null || compra.usuario.nome == null ? '' : compra.usuario.nome}">
+                                            </a>
+                                        </td>
+                                        <td><span
+                                                th:title="${compra.usuario.endereco.logradouro +' '+compra.usuario.endereco.numero+' '+compra.usuario.endereco.complemento }"
+                                                th:text="${compra.getCorte(compra.usuario.endereco.logradouro +' '+compra.usuario.endereco.numero+' '+compra.usuario.endereco.complemento, 20)}"></span>
+                                        </td>
+                                        <td><span th:title="${compra.usuario.telefone1}" th:text="${compra.usuario.telefone1}"></span></td>
+                                        <td>
+                                            <a style="color: black!important;cursor: pointer;"
+                                               th:attr="onclick='ItemController.setStatusAll(\''+ ${compra.id} + '\', \''+ ${compra.status.value} + '\', '+ ${compra.usuario.id} + ', \''+ ${compra.usuario.nome}+ '\', \''+ ${compra.saldoAPagar}+ '\', \'compra-pronto-retirada\');'"
+                                               th:class="${compra.getStyleRol(compra.status)}+' product-description'"
+                                               th:text="${compra.status.value}">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a style="color: black; cursor: pointer;"
+                                               th:attr="onclick='PagamentoController.addPagamento(\''+ ${compra.id} + '\', \''+ ${compra.statusPagamento.value} + '\', '+ ${compra.usuario.id} + ', \''+ ${compra.usuario.nome}+ '\', \''+ ${compra.saldoAPagar}+ '\', \'compra-pronto-retirada\');'"
+                                               th:class="${compra.getStylePagamento(compra.statusPagamento)}+' product-description'"
+                                               th:text="${compra.statusPagamento.value}">
+                                            </a>
+                                        </td>
+                                        <td><span th:text="${#numbers.formatDecimal(compra.total, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                        <td><span th:text="${#numbers.formatDecimal(compra.totalPagamentos, 1, 'POINT', 2, 'COMMA')}"></span></td>
+                                        <td><span th:style="${compra.saldoAPagar > 0.00} ? 'color: red' : 'color: green' "
+                                                  th:text="${#numbers.formatDecimal(compra.saldoAPagar, 1, 'POINT', 2, 'COMMA')}"></span>
+                                        </td>
+                                        <td><span th:text="${#dates.format(compra.dataCad, 'dd-MM-yy')}"></span></td>
+                                        <td>
+                                            <span style="color: red" th:if="${compra.entregaAt != null}"
+                                                  th:text="${#dates.format(compra.entregaAt, 'dd-MM-yy HH:mm')}"></span>
+                                            <a th:unless="${compra.entregaAt != null}"
+                                               th:attr="onclick='RolController.dtEntregaRolModal('+ ${compra.id} + ', \''+ ${compra.usuario.nome} + '\', \'compra-pronto-retirada\');'">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </a>
+                                        </td>
+                                        <td class="btn-group-sm text-center">
+                                            <a th:href="@{/compra/print(id=${compra.id})}" rel="noopener" target="_blank" class="btn btn-outline-dark btn-xs"
+                                               style="padding: 0 8px!important;"><i class="fas fa-print"></i>
+                                            </a>
+                                            <a th:if="${compra.status.value != 'CONCLUIDO' && compra.status.value != 'CANCELADO'}"
+                                               th:href="@{${'/compra/edicao?id='+compra.id}}"
+                                               class="btn btn-outline-primary btn-xs" style="padding: 0 8px!important;"><i class="fas fa-edit"></i></a>
+<!--                                            <a th:if="${compra.status.value == 'PRONTO_RETIRADA'}"-->
+<!--                                               th:attr="onclick='WppController.sendMsg('+ ${compra.id} + ', \''+ ${compra.status.value} + '\', \''+ ${compra.usuario.nome} + '\', \''+ ${compra.usuario.telefone1} + '\', \''+ ${compra.usuario.telefone2} + '\', \''+ ${compra.msg}+ '\', \'compra-pronto-retirada\');'"-->
+<!--                                               th:class="${compra.getStyleWpp(compra)}" style="padding: 0 8px!important;">-->
+<!--                                                <ion-icon name="logo-whatsapp"></ion-icon>-->
+<!--                                            </a>-->
+                                        </td>
+                                    </tr>
+                                    <tr th:id="${'rolItem'+compra.id}" class="expandable-body" th:if="${compra != null}">
+                                        <td colspan="15" th:style="'background-color:#'+ ${row.index % 2 == 0 ? '0000000f' : 'white'}">
+                                            <div class="p-0">
+                                                <table class="table table-hover">
+                                                    <tbody>
+                                                    <tr class="expandable-body">
+                                                        <td>
+                                                            <div class="p-0">
+                                                                <table class="table table-hover">
+                                                                    <tbody>
+                                                                    <tr th:if="${compra.items.empty}">
+                                                                        <td colspan="13"> Nenhum item adicionado!</td>
+                                                                    </tr>
+                                                                    <tr th:each="item : ${compra.items}"
+                                                                        th:style="'color:#000; font-size: 12px;'+ ${item.statusItem.value == 'CANCELADO' ? 'text-decoration: line-through;': ';'} "
+                                                                        class="text-center">
+                                                                        <td><span th:text="${item.id}"></span></td>
+                                                                        <td>
+                                                                            <a style="color: black"
+                                                                               th:attr="onclick='ItemController.statusItemModal('+ ${item.id} + ', \''+ ${item.statusItem.value} + '\', '+ ${compra.usuario.id} + ','+ ${compra.id} + ', \''+ ${compra.usuario.nome} + '\', \''+ ${item.lavadoresAll} + '\', '+ ${item.prateleira.id} + ', \'compra-pronto-retirada\');'"
+                                                                               th:class="${item.getStyleItem(item.statusItem)}+' product-description'"
+                                                                               th:text="${item.statusItem.value}">
+                                                                            </a>
+                                                                        </td>
+                                                                        <td><span
+                                                                                th:text="${item.servico == null || item.servico.id == null ? '' : item.servico.nome}"></span>
+                                                                        </td>
+                                                                        <td><span
+                                                                                th:text="${item.servico.unidade == null ? '' : item.servico.unidade.value}"></span>
+                                                                        </td>
+                                                                        <td><span th:text="${#numbers.formatDecimal(item.qtd, 1, 'POINT', 2, 'COMMA')}"></span>
+                                                                        </td>
+                                                                        <td><span
+                                                                                th:text="${#numbers.formatDecimal(item.valor, 1, 'POINT', 2, 'COMMA')}"></span>
+                                                                        </td>
+                                                                        <td><span
+                                                                                th:text="${#numbers.formatDecimal(item.total, 1, 'POINT', 2, 'COMMA')}"></span>
+                                                                        </td>
+                                                                        <td><span th:text="${item.lacre}"></span></td>
+                                                                        <td><span
+                                                                                th:text="${item.prateleira == null || item.prateleira.id == null ? '' : item.prateleira.nome}"></span>
+                                                                        </td>
+                                                                        <td><span th:text="${item.concatNome(item.lavadores)}"></span></td>
+                                                                        <td><span th:text="${#dates.format(item.createAt, 'dd-MM-yy')}"></span></td>
+                                                                        <td>
+                                                                            <span style="color: red" th:if="${item.entregaAt != null}"
+                                                                                  th:text="${#dates.format(item.entregaAt, 'dd-MM-yy HH:mm')}"></span>
+
+                                                                            <a th:unless="${item.entregaAt != null}"
+                                                                               th:attr="onclick='ItemController.dtEntregaItemModal('+ ${item.id} + ', '+ ${compra.id} + ', \''+ ${item.servico.nome} + '\', \''+ ${compra.usuario.nome} + '\', \'compra-pronto-retirada\');'"
+                                                                            >
+                                                                                <i class="far fa-calendar-alt"></i>
+                                                                            </a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td colspan="13">
+                                                                            <div class="p-0">
+                                                                                <table class="table table-hover">
+                                                                                    <tbody>
+                                                                                    <tr th:each="wpp : ${compra.wpps}" style="color: #000; font-size: 12px;">
+                                                                                        <td><span th:text="${wpp.id}"></span></td>
+                                                                                        <td><span th:text="${wpp.msg}"></span></td>
+                                                                                        <td><span th:title="${wpp.descricao}" th:text="${wpp.getCorte(wpp.descricao, 11)}"></span></td>
+                                                                                        <td><span th:text="${#dates.format(wpp.createAt, 'dd-MM-yy HH:mm')}"></span></td>
+                                                                                    </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modaais-->
+    <div th:replace="~{paginas/items/modais/Item_status_modal}"></div>
+    <div th:replace="~{paginas/items/modais/Item_all_status_modal}"></div>
+    <div th:replace="~{paginas/items/modais/Item_entrega_modal}"></div>
+    <div th:replace="~{paginas/pagamentos/modais/pagamento_add_modal}"></div>
+    <div th:replace="~{paginas/wpps/modais/wpp_modal}"></div>
+    <div th:replace="~{paginas/compra/modal/rol_entrega_modal}"></div>
+    <!-- /.Modaais-->
+</section>
+</body>
+</html>

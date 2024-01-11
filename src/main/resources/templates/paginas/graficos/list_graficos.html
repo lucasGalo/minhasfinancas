@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_list}"
+>
+<body>
+<section layout:fragment="content">
+  <!-- Despesas-->
+  <div th:replace="~{paginas/estatisticas/tabelas/despesas}"></div>
+  <!-- /.Despesas-->
+
+  <!-- Despesas Ans-->
+  <div th:replace="~{paginas/estatisticas/tabelas/ano}"></div>
+  <!-- /.Despesas ano-->
+</section>
+</div>
+</body>
+</html>

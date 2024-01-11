@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+</head>
+<body>
+<div th:fragment="resultsListItems">
+    <tr th:if="${items.empty}">
+        <td colspan="13"> Nenhum serviço encontrado!</td>
+    </tr>
+    <tr th:each="item : ${items}" style="color: #000; font-size: 14px;" class="text-center" th:id="${'statusItem'+item.id}">
+        <td><span th:text="${item.compra.id}"></span></td>
+        <td>
+            <a th:href="@{/usuarios/profile(id=${item.compra.usuario.id})}"
+               th:text="${item.compra == null || item.compra.usuario == null || item.compra.usuario.nome == null ? '' : item.compra.usuario.nome}">
+            </a>
+        </td>
+        <td><span th:text="${item.servico == null || item.servico.id == null ? '' : item.servico.nome}"></span></td>
+        <td>
+            <a style="color: black"
+               th:attr="onclick='ItemController.statusItemModal('+ ${item.id} + ', \''+ ${item.statusItem.value} + '\', '+ ${item.compra.usuario.id} + ','+ ${item.compra.id} + ', \''+ ${item.compra.usuario.nome} + '\', \''+ ${item.lavadoresAll} + '\', '+ ${item.prateleira == null ? null : item.prateleira.id} + ', \'item-cliente\');'"
+               th:class="${item.getStyleItem(item.statusItem)}+' product-description'"
+               th:text="${item.statusItem.value}">
+            </a>
+        </td>
+        <td><span th:text="${item.servico.unidade == null ? '' : item.servico.unidade.value}"></span>
+        </td>
+        <td><span th:text="${#numbers.formatDecimal(item.qtd, 1, 'POINT', 2, 'COMMA')}"></span></td>
+        <td><span th:text="${#numbers.formatDecimal(item.valor, 1, 'POINT', 2, 'COMMA')}"></span></td>
+        <td><span th:text="${#numbers.formatDecimal(item.desconto, 1, 'POINT', 2, 'COMMA')}"></span>
+        <td><span th:text="${#numbers.formatDecimal(item.subTotal, 1, 'POINT', 2, 'COMMA')}"></span></td>
+        <td><span th:text="${#numbers.formatDecimal(item.total, 1, 'POINT', 2, 'COMMA')}"></span></td>
+        <td><span th:text="${item.lacre}"></span></td>
+        <td><span th:text="${item.prateleira == null || item.prateleira.id == null ? '' : item.prateleira.nome}"></span></td>
+        <td><span th:text="${item.concatNome(item.lavadores)}"></span></td>
+        <td><span th:text="${#dates.format(item.dataRecente, 'dd-MM-yyyy HH:mm:ss')}"></span></td>
+        <td><span th:text="${item.compra == null || item.compra.usuario == null || item.compra.usuario.telefone1 == null ? '' : item.compra.usuario.telefone1}"></span></td>
+        <td><span th:text="${item.compra == null || item.compra.usuario == null || item.compra.usuario.telefone2 == null ? '' : item.compra.usuario.telefone2}"></span></td>
+        <td>
+            <span th:text="${item.compra.usuario.endereco == null || item.compra.usuario.endereco.logradouro == null ? '' :item.compra.usuario.endereco.logradouro}"></span>
+            <span th:text="${item.compra.usuario.endereco == null || item.compra.usuario.endereco.numero == null ? '' : ', n°'+item.compra.usuario.endereco.numero}"></span>
+            <span th:text="${item.compra.usuario.endereco == null || item.compra.usuario.endereco.complemento == null ? '' : ', Comp:'+item.compra.usuario.endereco.complemento}"></span>
+        </td>
+    </tr>
+</div>
+</body>
+</html>

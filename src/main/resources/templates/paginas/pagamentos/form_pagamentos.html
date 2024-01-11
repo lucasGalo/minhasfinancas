@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layouts/layout_form}"
+>
+<body>
+<section layout:fragment="content">
+    <form role="form" th:action="${single.persistido} ? ${EDITAR_URL} : ${NEW_URL}" method="post" th:object="${single}">
+        <div class="card-header">
+            <h3 class="card-title" th:text="${FRM}"></h3>
+            <div class="card-tools">
+                <button type="submit" class="btn btn-info" data-placement="top" title="salvar e retornar">
+                    <i class="fa fa-save"></i>
+                </button>
+                <a type="button" class="btn btn-warning" th:href="${LIST_URL}" data-placement="top" title="retornar">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <input type="hidden" th:field="*{id}">
+            <input type="hidden" th:field="*{persistido}">
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputValor">Valor</label>
+                        <input type="text" class="form-control money" id="inputValor" placeholder="Informe o valor"
+                               name="vlr" required/>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="inputDesc">Descrição</label>
+                        <input type="text" class="form-control" id="inputDesc" placeholder="Informe a descrição"
+                               th:field="*{descricao}"/>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Dt pagamento:</label>
+                        <div class="input-group date">
+                            <input type="datetime-local" class="form-control pull-right" name="dtPagamento" required/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="selectCompra">Compra associado?</label>
+                        <select id="selectCompra" data-placeholder="Qual compra associado?"
+                                tabindex="-1" aria-hidden="true" class="form-control" th:field="*{compra}" required>
+                            <option value="">Qual compra associado?</option>
+
+                            <option th:each="compra: ${compras}"
+                                    th:value="${{compra}}"
+                                    th:text="${compra.nome}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="selectCarteira">Carteira associado?</label>
+                        <select id="selectCarteira" data-placeholder="Qual compra associado?"
+                                tabindex="-1" aria-hidden="true" class="form-control" th:field="*{carteira}" required>
+                            <option value="">Qual carteira associado?</option>
+
+                            <option th:each="carteira: ${carteiras}"
+                                    th:value="${{carteira}}"
+                                    th:text="${carteira.nome}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Ativo: </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optionRadioInline" value="true"
+                                   th:checked="*{ativo}" th:field="*{ativo}" th:value="${true}"/>sim
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optionRadioInline" value="false"
+                                   th:checked="*{ativo != true} " th:field="*{ativo}" th:value="${false}"/>não
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+</body>
+</html>

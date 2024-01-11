@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">
+                    <span class="info-box-icon bg-danger elevation-1">R$</span>
+                    <span th:text="${'RELATÓRIO DISCRIMINADO '+ single.inicio +' a ' + single.fim}"></span>
+                </h5>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-tool dropdown-toggle"
+                                data-toggle="dropdown">
+                            <i class="fas fa-wrench"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" role="menu">
+                            <button type="button" class="dropdown-item" data-toggle="modal" data-target="#modal-consulta">
+                                Nova Consulta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <!-- Main content -->
+                <div class="invoice p-12 mb-12">
+
+                    <div th:replace="~{paginas/dashboards/tabelas/pgtos_tabela}"></div>
+
+
+                    <div th:replace="~{paginas/dashboards/tabelas/rols_consulta_tabela}"></div>
+                </div>
+                <!-- /.invoice -->
+            </div>
+            <!-- ./card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.col -->
+</div>
