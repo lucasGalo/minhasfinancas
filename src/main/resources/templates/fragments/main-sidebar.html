@@ -28,18 +28,19 @@
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <li class="nav-item">
+                <a th:href="@{/usuarios/index}" class="nav-link">
+                    <i class="nav-icon fas fa-edit"></i>
+                    <p>Index</p>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-file"></i>
-                    <p> Pages
+                    <i class="nav-icon fas fa-chart-pie"></i>
+                    <p> Graficos
                         <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a th:href="@{/usuarios/index}" class="nav-link"> <i class="far fa-circle"></i>
-                            <p>Index</p>
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a th:href="@{/calendars/list}" class="nav-link"> <i class="far fa-circle"></i>
                             <p>Calendario</p>
@@ -51,7 +52,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/resumos/list}" class="nav-link"><i class="nav-icon fas fa-chart-pie"></i>
+                        <a th:href="@{/resumos/list}" class="nav-link"> <i class="far fa-circle"></i>
                             <p>Resumo</p>
                         </a>
                     </li>
@@ -70,21 +71,21 @@
                             <p>Compra</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a th:href="@{/items/list}" class="nav-link"> <i class="far fa-circle"></i>
-                            <p>Itens</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/pagamentos/list}" class="nav-link"> <i class="far fa-circle"></i>
-                            <p>Pagamentos</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:href="@{/carteiras/list}" class="nav-link"> <i class="far fa-circle"></i>
-                            <p>Carteiras</p>
-                        </a>
-                    </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a th:href="@{/items/list}" class="nav-link"> <i class="far fa-circle"></i>-->
+<!--                            <p>Itens</p>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a th:href="@{/pagamentos/list}" class="nav-link"> <i class="far fa-circle"></i>-->
+<!--                            <p>Pagamentos</p>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a th:href="@{/carteiras/list}" class="nav-link"> <i class="far fa-circle"></i>-->
+<!--                            <p>Carteiras</p>-->
+<!--                        </a>-->
+<!--                    </li>-->
                     <li class="nav-item">
                         <a th:href="@{/categorias/list}" class="nav-link"> <i class="far fa-circle"></i>
                             <p>Categorias</p>
