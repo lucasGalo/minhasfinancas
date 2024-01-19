@@ -16,190 +16,175 @@
         <div th:text="${message}"></div>
     </div>
     <div class="box">
-        <!-- /.box-header -->
-        <div class="box-body">
-            <h3> Bem vindo ao sistema - Minhas-Finanças</h3>
-        </div>
-        <!-- /.box-body -->
-        <div class="card-body" style="padding: 10px 20px !important;">
-            <h3>Filtrar por algum cliente?</h3>
+        <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="inputNomePes">Nome/Razão social*</label>
-                        <input type="text" class="form-control" id="inputNomePes" placeholder="Informe o Nome/Razão social"
-                               autocomplete="off" name="nome"/>
-                    </div>
-                </div>
 
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label for="cpfcnpjPes">CPF/CNPJ</label>
-                        <input type="text" class="form-control" id="cpfcnpjPes" autocomplete="off"
-                               name="identificacao" placeholder="Informe o cpf/cnpj">
-                    </div>
-                </div>
+                <div class="col-12 col-sm-12">
+                    <div class="card card-primary card-tabs">
+                        <div class="card-header p-0 pt-1">
+                            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="custom-tabs-one-despesa-tab" data-toggle="pill" href="#custom-tabs-one-despesa" role="tab"
+                                       aria-controls="custom-tabs-one-despesa" aria-selected="true">DESPESA</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="custom-tabs-one-renda-tab" data-toggle="pill" href="#custom-tabs-one-renda" role="tab"
+                                       aria-controls="custom-tabs-one-renda" aria-selected="false">RENDA</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="custom-tabs-one-tabContent">
+                                <div class="tab-pane fade active show" id="custom-tabs-one-despesa" role="tabpanel"
+                                     aria-labelledby="custom-tabs-one-despesa-tab">
+                                    <form role="form" id="formInserirDespesa" method="post">
+                                        <input type="hidden" name="usuario.id" th:value="${#authentication.getPrincipal().getId()}">
+                                        <div class="row col-12">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Dt compra:</label>
+                                                    <div class="input-group date">
+                                                        <input type="datetime-local" class="form-control pull-right" name="date" required/>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label for="inputTelefone1Pes">Telefone1</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="selectStatus">Status?</label>
+                                                    <select id="selectStatus" data-placeholder="Qual status da compra?"
+                                                            tabindex="-1" aria-hidden="true" class="form-control"
+                                                            name="statusCompra" required>
+                                                        <option value="">Qual status?</option>
+                                                        <option th:each="status: ${statusCompralist}"
+                                                                th:value="${status}"
+                                                                th:text="${status.value}"
+                                                                th:selected="(*{statusCompra} != null ? ${status.cod} == *{statusCompra.cod} : false)">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="selectCategoria">Categoria?</label>
+                                                    <select id="selectCategoria" data-placeholder="Qual categoria associado?"
+                                                            tabindex="-1" aria-hidden="true" class="form-control" name="categoria" required>
+                                                        <option value="">Qual categoria?</option>
+
+                                                        <option th:each="categoria: ${categorias}"
+                                                                th:value="${{categoria}}"
+                                                                th:text="${categoria.nome}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="inputNome">Nome</label>
+                                                    <input type="text" class="form-control" id="inputNome" placeholder="Informe o nome" name="nome" required/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="inputValor">Valor</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">R$:</span>
+                                                        </div>
+                                                        <input type="text" class="form-control money" id="inputValor" name="vlr" required autocomplete="off"
+                                                               placeholder="0,00"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary float-right">Inserir despesa</button>
+                                            <button onclick="this.form.reset();" class="btn btn-default">Limpar</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="tab-pane fade" id="custom-tabs-one-renda" role="tabpanel" aria-labelledby="custom-tabs-one-renda-tab">
+                                    <form role="form" id="formInserirRenda" method="post">
+                                        <input type="hidden" name="usuario.id" th:value="${#authentication.getPrincipal().getId()}">
+                                        <div class="row col-12">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Dt renda:</label>
+                                                    <div class="input-group date">
+                                                        <input type="datetime-local" class="form-control pull-right" name="date" required/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="selectStatusRenda">Status?</label>
+                                                    <select id="selectStatusRenda" data-placeholder="Qual status da renda?"
+                                                            tabindex="-1" aria-hidden="true" class="form-control"
+                                                            name="statusRenda" required>
+                                                        <option value="">Qual status?</option>
+                                                        <option th:each="status: ${statusRendalist}"
+                                                                th:value="${status}"
+                                                                th:text="${status.value}"
+                                                                th:selected="(*{statusRenda} != null ? ${status.cod} == *{statusRenda.cod} : false)">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="selectTipo">Tipo?</label>
+                                                    <select id="selectTipo" data-placeholder="Qual tipo associado?"
+                                                            tabindex="-1" aria-hidden="true" class="form-control" name="tipo" required>
+                                                        <option value="">Qual tipo?</option>
+
+                                                        <option th:each="tipo: ${tipos}"
+                                                                th:value="${{tipo}}"
+                                                                th:text="${tipo.nome}">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="inputNome">Renda</label>
+                                                    <input type="text" class="form-control" id="inputRenda" placeholder="Informe a renda" name="nome" required/>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="inputVlr">Valor</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">R$:</span>
+                                                        </div>
+                                                        <input type="text" class="form-control money" id="inputVlr" name="vlr" required autocomplete="off"
+                                                               placeholder="0,00"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary float-right">Inserir renda</button>
+                                            <button onclick="this.form.reset();" class="btn btn-default">Limpar</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                            <input type="text" class="form-control" id="inputTelefone1Pes"
-                                   autocomplete="off"
-                                   name="telefone1"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label for="inputTelefone2Pes">Telefone2</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                            </div>
-                            <input type="text" class="form-control" id="inputTelefone2Pes"
-                                   autocomplete="off"
-                                   name="telefone2"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="inputLogradouroPes">Rua/Av</label>
-                        <input type="text" class="form-control" id="inputLogradouroPes"
-                               placeholder="Informe a rua ou Avenida" autocomplete="off"
-                               name="logradouro"/>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label for="inputRol">Rol</label>
-                        <input type="text" class="form-control" id="inputRol"
-                               placeholder="Informe o compra" autocomplete="off"
-                               name="compra"/>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label for="inputLacre">Lacre</label>
-                        <input type="text" class="form-control" id="inputLacre"
-                               placeholder="Informe o lacre" autocomplete="off"
-                               name="lacre"/>
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label for="inputData">Data</label>
-                        <div class="input-group date">
-                            <input type="date" class="form-control pull-right" id="inputData" name="data"/>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" onclick="UsuarioController.buscaAjax()">
-                    <i class="fas fa-1x fa-sync fa-spin" id="loading" style="display: none;"></i>Clientes
-                </button>
-                <button class="btn btn-primary" onclick="UsuarioController.itemAjax()">
-                    <i class="fas fa-1x fa-sync fa-spin" id="loadingItem" style="display: none;"></i>Serviços
-                </button>
-                <input class="btn btn-default" value="Limpar" onclick="UsuarioController.Limpar()">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card" style="margin-top: 10px;">
-                    <div class="card-header">
-                        <h5 class="card-title">
-                            <i class="fas fa-users"></i>
-                            CLIENTES FILTRADOS
-                        </h5>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table id="example1" class="table m-0">
-                                <thead>
-                                <tr class="text-center">
-                                    <th>#</th>
-                                    <th>Ações</th>
-                                    <th>Nome</th>
-                                    <th>Cpf/Cnpj</th>
-                                    <th>Endereço</th>
-                                    <th>Tel.1</th>
-                                    <th>Tel.2</th>
-                                    <th>Bairro</th>
-                                    <th>Cidade</th>
-                                    <th>Data</th>
-                                </tr>
-                                </thead>
-                                <tbody id="tblCliente">
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="card" style="margin-top: 10px;">
-                    <div class="card-header">
-                        <h5 class="card-title">
-                            <i class="ion ion-ios-cart-outline"></i>
-                            Serviços filtrados
-                        </h5>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table id="example2" class="table m-0">
-                                <thead>
-                                <tr class="text-center">
-                                    <th>Rol</th>
-                                    <th>Cliente</th>
-                                    <th>Serviço</th>
-                                    <th>Status</th>
-                                    <th>Uni.</th>
-                                    <th>Qtd</th>
-                                    <th>V.Unit</th>
-                                    <th>Desc.</th>
-                                    <th>Sub-total</th>
-                                    <th>Total</th>
-                                    <th>Lacre</th>
-                                    <th>Prat</th>
-                                    <th>Lav.</th>
-                                    <th>Data</th>
-                                    <th>Tel 1</th>
-                                    <th>Tel 2</th>
-                                    <th>End</th>
-                                </tr>
-                                </thead>
-                                <tbody id="tblItem">
-
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-            <!-- /.box -->
 </section>
 </body>
 </html>

@@ -28,7 +28,7 @@
     <link rel="stylesheet" th:href="@{/lte3/plugins/toastr/toastr.min.css}">
     <link rel="stylesheet" th:href="@{/paginas/css/local.css}">
 </head>
-<body class="sidebar-mini layout-fixed sidebar-collapse" style="font-size: 14px">
+<body class="dark-mode sidebar-mini layout-fixed sidebar-collapse" style="font-size: 14px">
 <div class="wrapper">
     <!-- Navbar -->
     <div th:replace="~{fragments/header}"></div>
@@ -42,54 +42,10 @@
     <div class="content-wrapper">
         <section class="content">
             <div th:replace="~{fragments/message}"></div>
-            <div class="container-fluid" style="padding: 0!important;">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                    <div class="row col-md-12">
-                                        <a type="button" class="btn btn-success btn-sm pull-right" data-placement="top"
-                                           data-toggle="modal" data-target="#modal-xl">
-                                            <i class="fa fa-plus"></i>
-                                        </a>
-                                        <a type="button" class="btn btn-success btn-sm pull-right" data-placement="top" style="margin-left:2px"
-                                           title="novo" th:href="@{/usuarios/new}">
-                                            <i class="fa fa-plus">Add Cliente + Rol</i>
-                                        </a>
-                                        <a type="button" class="btn btn-outline-primary pull-right" data-placement="top" style="margin-left:2px"
-                                           th:href="@{/dashboards/rolTodos}">
-                                            <i class="fas fa-shopping-cart"> Todos Rols</i>
-                                        </a>
-                                        <a type="button" class="btn btn-outline-primary pull-right" data-placement="top" style="margin-left:2px"
-                                           th:href="@{/dashboards/rolAberto}">
-                                            <i class="fas fa-shopping-cart"> Rols abertos</i>
-                                        </a>
-                                        <a type="button" class="btn btn-outline-primary pull-right" data-placement="top" style="margin-left:2px"
-                                           th:href="@{/dashboards/rolPgtoPendente}">
-                                            <i class="fas fa-shopping-cart"> Rols pgto pendente</i>
-                                        </a>
-                                        <a type="button" class="btn btn-outline-primary pull-right" data-placement="top" style="margin-left:2px"
-                                           th:href="@{/dashboards/rolProntoRetirada}">
-                                            <i class="fas fa-shopping-cart"> Rols pronto retirada</i>
-                                        </a>
-                                        <a type="button" class="btn btn-outline-primary pull-right" data-placement="top" style="margin-left:2px"
-                                           th:href="@{/dashboards/rolAgendado}">
-                                            <i class="fas fa-shopping-cart"> Rols agendados</i>
-                                        </a>
-                                        <a type="button" class="btn btn-outline-info btn-sm pull-right" data-placement="top" style="margin-left:2px"
-                                           th:href="@{/dashboards/allItens}">
-                                            <i class="fas fa-mortar-pestle"> Todos serviços feito</i>
-                                        </a>
-                                        <a type="button" class="btn btn-outline-info btn-sm pull-right" data-placement="top" style="margin-left:5px"
-                                           th:href="@{/dashboards/allLavando}">
-                                            <i class="fas fa-mortar-pestle"> Serviços lavando</i>
-                                        </a>
-                                        <a type="button" class="btn btn-outline-info btn-sm pull-right" data-placement="top" style="margin-left:2px"
-                                           th:href="@{/dashboards/allProntoRetirada}">
-                                            <i class="fas fa-mortar-pestle"> Serviços pronto retirada</i>
-                                        </a>
-                                </div>
-                            </div>
                             <div class="card-body">
                                 <div layout:fragment="content" th:remove="tag"></div>
                             </div>
@@ -148,11 +104,9 @@
 
 <!-- Controllers -->
 <script th:src="@{/paginas/js/controllers/UsuarioController.js}"></script>
-<script th:src="@{/paginas/js/controllers/ItemController.js}"></script>
-<script th:src="@{/paginas/js/controllers/PagamentoController.js}"></script>
 <!-- Fim input file-->
 
-<script th:src="@{/paginas/js/utils/viacep.js}"></script>
+
 
 <div layout:fragment="script" th:remove="tag"></div>
 <div layout:fragment="local">
@@ -178,133 +132,52 @@
       $(this).bootstrapSwitch('state', $(this).prop('checked'));
     })
 
-   $("#formStatusItem").submit(function(e) {
+   $("#formInserirDespesa").submit(function(e) {
         //prevent Default functionality
         e.preventDefault();
-        let id = 'statusItem'+Utils.getValueInput("idItem");
 
         //do your own request an handle the results
         $.ajax({
-                url: '/items/statusItem',
+                url: '/compras/novo',
                 type: 'post',
                 dataType: 'application/json',
-                data: $("#formStatusItem").serialize(),
+                data: $("#formInserirDespesa").serialize(),
                  beforeSend:function(){
                     //alert('alerta');
                 },
                 success:function(response, textStatus, jqXHR){
-                    $("#"+id).html(jqXHR.responseText);
-                    toastr.success("Status serviço alterado com sucesso");
+                    toastr.success("Inserida despesa com sucesso");
                 },
                 complete:function(){
-                    $('#modal-item').modal('hide');
-                    $("#formStatusItem").trigger("reset");
+                    $("#formInserirDespesa").trigger("reset");
                 },
                 error: function(jqXHR, textStatus, errorThrown){
-                    $("#"+id).html(jqXHR.responseText);
-                    toastr.success("Status serviço alterado com sucesso");
+                    toastr.success("Inserida despesa com sucesso");
                 }
         });
     });
 
-    $("#formStatusItemIndex").submit(function(e) {
+    $("#formInserirRenda").submit(function(e) {
         //prevent Default functionality
         e.preventDefault();
-        let id = '#compra'+Utils.getValueInput("inputRolItemIndex");
-        let idItem = '#rolItem'+Utils.getValueInput("inputRolItemIndex");
 
         //do your own request an handle the results
         $.ajax({
-                url: '/items/statusItemRol',
+                url: '/rendas/novo',
                 type: 'post',
                 dataType: 'application/json',
-                data: $("#formStatusItemIndex").serialize(),
+                data: $("#formInserirRenda").serialize(),
                  beforeSend:function(){
                     //alert('alerta');
                 },
                 success:function(response, textStatus, jqXHR){
-                    $(id).html(jqXHR.responseText);
-                    $(idItem).remove()
-                    toastr.success("Status serviço alterado com sucesso");
+                    toastr.success("Inserida renda com sucesso");
                 },
                 complete:function(){
-                    $('#modal-item-index').modal('hide');
-                    $("#formStatusItemIndex").trigger("reset");
+                    $("#formInserirRenda").trigger("reset");
                 },
                 error: function(jqXHR, textStatus, errorThrown){
-                    $(id).remove()
-                    $(idItem).remove()
-                    $("#tbodyRol").prepend(jqXHR.responseText);
-                    toastr.success("Status serviço alterado com sucesso");
-                }
-        });
-    });
-
-
-     $("#formStatusAllItem").submit(function(e) {
-        //prevent Default functionality
-        e.preventDefault();
-        let id = '#compra'+Utils.getValueInput("idRol");
-        let idItem = '#rolItem'+Utils.getValueInput("idRol");
-
-        //do your own request an handle the results
-        $.ajax({
-                url: '/items/statusAll',
-                type: 'post',
-                dataType: 'application/json',
-                data: $("#formStatusAllItem").serialize(),
-                 beforeSend:function(){
-                    //alert('alerta');
-                },
-                success:function(response, textStatus, jqXHR){
-                    $(id).remove()
-                    $(idItem).remove()
-                    $("#tbodyRol").prepend(jqXHR.responseText);
-                    toastr.success("Alterado status de todos serviço com sucesso");
-                },
-                complete:function(){
-                    $('#modal-statusAll').modal('hide');
-                    $("#formStatusAllItem").trigger("reset");
-                },
-                error: function(jqXHR, textStatus, errorThrown){
-                    $(id).remove()
-                    $(idItem).remove()
-                    $("#tbodyRol").prepend(jqXHR.responseText);
-                    toastr.success("Alterado status de todos serviço com sucesso");
-                }
-        });
-    });
-
-     $("#formAddPgto").submit(function(e) {
-        //prevent Default functionality
-        e.preventDefault();
-        let id = '#compra'+Utils.getValueInput("idRolPgto");
-        let idItem = '#rolItem'+Utils.getValueInput("idRolPgto");
-
-        //do your own request an handle the results
-        $.ajax({
-                url: '/pagamentos/addPgto',
-                type: 'post',
-                dataType: 'application/json',
-                data: $("#formAddPgto").serialize(),
-                 beforeSend:function(){
-                    //alert('alerta');
-                },
-                success:function(response, textStatus, jqXHR){
-                    $(id).remove()
-                    $(idItem).remove()
-                    $("#tbodyRol").prepend(jqXHR.responseText);
-                    toastr.success("Adicionado Pagmento com sucesso");
-                },
-                complete:function(){
-                    $('#modal-pagamento').modal('hide');
-                    $("#formAddPgto").trigger("reset");
-                },
-                error: function(jqXHR, textStatus, errorThrown){
-                    $(id).remove()
-                    $(idItem).remove()
-                    $("#tbodyRol").prepend(jqXHR.responseText);
-                    toastr.success("Adicionado Pagmento com sucesso");
+                    toastr.success("Inserida renda com sucesso");
                 }
         });
     });

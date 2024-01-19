@@ -45,22 +45,7 @@
             <div th:replace="~{fragments/message}"></div>
             <div class="container-fluid" style="padding: 0!important;">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title" th:text="${FRM}"></h3>
-                                <div class="card-tools">
-                                    <a type="button" class="btn btn-success btn-sm pull-right" data-placement="top"
-                                       title="novo" th:href="${NEW_URL}">
-                                        <i class="fa fa-plus"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div layout:fragment="content" th:remove="tag"></div>
-                            </div>
-                        </div>
-                    </div>
+                    <div layout:fragment="content" th:remove="tag"></div>
                 </div>
             </div>
         </section>
@@ -124,6 +109,8 @@
   $(function () {
     dataTable();
   });
+
+
     </script>
 </div>
 </div>

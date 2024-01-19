@@ -28,7 +28,7 @@
         <tr th:each="it : ${list}">
             <td><span th:text="${it.id}"></span></td>
             <td><span th:text="${it.statusRenda.value}"></span></td>
-            <td th:style="'color:'+${it.tipo.cor}"><ion-icon size="large" th:attr="name=${it.tipo.icone.value}"></ion-icon><span style="color: #000" th:text="${' '+it.tipo.nome}"></span></td>
+            <td th:style="'color:'+${it.tipo.cor}"><ion-icon size="large" th:attr="name=${it.tipo.icone.value}"></ion-icon><span style="color: white" th:text="${' '+it.tipo.nome}"></span></td>
             <td><span th:text="${it.nome}"></span></td>
             <td><span th:text="${it.descricao}"></span></td>
             <td><span th:text="${#numbers.formatDecimal(it.vlr, 1, 'POINT', 2, 'COMMA')}"></span></td>

@@ -35,7 +35,7 @@
                                     <span th:if="${pgto.isCheck}" style="color: green"><ion-icon name="checkmark-outline"></ion-icon></span>
                                     <span th:unless="${pgto.isCheck}" style="color: red"><ion-icon name="close-outline"></ion-icon></span>
                                 </td>
-                                <td><span th:text="${pgto.compra.status}" th:class="${pgto.compra.getStyleRol(pgto.compra.status)}" style="color: black!important;"></span></td>
+                                <td><span th:text="${pgto.compra.status}" th:class="${pgto.compra.getStyleRol(pgto.compra.status)}"></span></td>
                             </tr>
                             </tbody>
                             <tfoot>

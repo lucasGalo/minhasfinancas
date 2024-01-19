@@ -19,4 +19,5 @@ public interface NamesResouces {
     String CALENDAR_URL = "/calendars";
     String TIPO_URL = "/tipos";
     String RENDA_URL = "/rendas";
+    String RESUMO_URL = "/resumos";
 }

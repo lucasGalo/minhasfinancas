@@ -12,20 +12,20 @@
 
                     <div class="row col-12" style="text-align: center">
 
-                        <div class="col-4" style="font-weight: bold">
+                        <div class="col-4">
                             Renda
-                            <address style="color: blue; font-size: 18px; font-weight: 550; margin: 0px !important" th:text="${#numbers.formatDecimal(single.getTotalMes(comprasProMes.value, 'RendaDTO'), 1, 'POINT', 2, 'COMMA')+'R$'}">
+                            <address style="color: #1a9be9; font-size: 18px; margin: 0px !important" th:text="${#numbers.formatDecimal(single.getTotalMes(comprasProMes.value, 'RendaDTO'), 1, 'POINT', 2, 'COMMA')+'R$'}">
                                 0.00R$
                             </address>
                         </div>
-                        <div class="col-4" style="font-weight: bold">
+                        <div class="col-4">
                             Despesas
-                            <address style="color: red; font-size: 18px; font-weight: 550; margin: 0px !important" th:text="${#numbers.formatDecimal(single.getTotalMes(comprasProMes.value, 'CompraDTO'), 1, 'POINT', 2, 'COMMA')+'R$'}">
+                            <address style="color: red; font-size: 18px; margin: 0px !important" th:text="${#numbers.formatDecimal(single.getTotalMes(comprasProMes.value, 'CompraDTO'), 1, 'POINT', 2, 'COMMA')+'R$'}">
                             </address>
                         </div>
-                        <div class="col-4" style="font-weight: bold">
+                        <div class="col-4">
                             Total
-                            <address th:style="'color:' +${single.getTotal(comprasProMes.value)> 0.00? 'blue': 'red'}+'; font-size: 18px; font-weight: 550; margin: 0px !important'" th:text="${#numbers.formatDecimal(single.getTotal(comprasProMes.value), 1, 'POINT', 2, 'COMMA')+'R$'}">
+                            <address th:style="'color:' +${single.getTotal(comprasProMes.value)> 0.00? '#1a9be9': 'red'}+'; font-size: 18px; margin: 0px !important'" th:text="${#numbers.formatDecimal(single.getTotal(comprasProMes.value), 1, 'POINT', 2, 'COMMA')+'R$'}">
 
                             </address>
                         </div>
@@ -43,10 +43,10 @@
                         <tr th:if="${!diaAdia.value.empty}" th:each="compra : ${diaAdia.value}" style="font-family: monospace">
                             <td th:style="'color:'+${compra.cor}+';width: 80%'">
                                 <ion-icon size="small" th:attr="name=${compra.icone.value}"></ion-icon>
-                                <span th:text="${compra.categoria}" style="color: black; font-weight: bold; font-size: 18px "></span>
-                                <span th:text="${'('+compra.nome+')'}" style="color: black;"></span>
+                                <span th:text="${compra.categoria}" style="color: white;font-size: 18px "></span>
+                                <span th:text="${'('+compra.nome+')'}" style="color: white;font-family: cursive; font-size: 12px;"></span>
                             </td>
-                            <td><span th:text="${#numbers.formatDecimal(compra.vlr, 1, 'POINT', 2, 'COMMA')+'R$'}" th:style="'color:' +${compra.mae == 'RendaDTO'? 'blue': 'black'}+'; font-weight: bold; font-size: 18px '"></span></td></tr>
+                            <td><span th:text="${#numbers.formatDecimal(compra.vlr, 1, 'POINT', 2, 'COMMA')+'R$'}" th:style="'color:' +${compra.mae == 'RendaDTO'? '#1a9be9': 'white'}+'; font-size: 18px '"></span></td></tr>
                         </tbody>
                     </table>
                 </div>

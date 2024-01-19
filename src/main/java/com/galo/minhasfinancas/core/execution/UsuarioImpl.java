@@ -6,6 +6,9 @@ import com.galo.minhasfinancas.dataprovider.repositories.UsuarioRepository;
 import com.galo.minhasfinancas.domain.dto.usuario.UsuarioDTO;
 import com.galo.minhasfinancas.domain.entity.Usuario;
 import com.galo.minhasfinancas.domain.enums.Perfil;
+import com.galo.minhasfinancas.domain.enums.StatusCompra;
+import com.galo.minhasfinancas.domain.enums.StatusItem;
+import com.galo.minhasfinancas.domain.enums.StatusRenda;
 import com.galo.minhasfinancas.domain.mappers.UsuarioMapper;
 import com.galo.minhasfinancas.domain.querys.QUERY;
 import com.galo.minhasfinancas.domain.querys.UsuarioQuery;
@@ -14,7 +17,13 @@ import com.galo.minhasfinancas.framework.api.execution.ExecutionAbs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.galo.minhasfinancas.config.security.UserUtil.getIdUserLogado;
 
 @Component
 public class UsuarioImpl extends ExecutionAbs<Usuario, UsuarioRepository, UsuarioDTO, UsuarioMapper> {
@@ -87,6 +96,18 @@ public class UsuarioImpl extends ExecutionAbs<Usuario, UsuarioRepository, Usuari
       throw new ObjectNotFoundException("Email não ! Email: " + email + ", Tipo: '" + Usuario.class.getSimpleName() + "'");
     }
     return obj;
+  }
+
+  @Override
+  public Map<String, List> getStringListMap() {
+    if(map == null) {
+      map = new HashMap<>();
+      map.put("statusCompralist", List.of(StatusCompra.values()));
+      map.put("statusRendalist", List.of(StatusRenda.values()));
+      map.put("categorias", categoriaRepository.findAllUsuario(getIdUserLogado()));
+      map.put("tipos", tipoRepository.findAllUsuario(getIdUserLogado()));
+    }
+    return map;
   }
 
 }
