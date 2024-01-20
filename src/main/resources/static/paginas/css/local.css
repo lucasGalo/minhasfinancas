@@ -13,3 +13,11 @@
 .card .card-body {
     padding: 0!important;
 }
+
+#divcategoria .destaque {
+    border: 1px solid white!important;
+}
+
+#divtipo .destaque {
+    border: 1px solid white!important;
+}
