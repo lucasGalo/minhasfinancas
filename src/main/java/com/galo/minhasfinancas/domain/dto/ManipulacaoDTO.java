@@ -55,6 +55,7 @@ public class ManipulacaoDTO extends DTO {
     if(rendasPorTipo == null || rendasPorTipo.size()==0) this.rendasPorTipo = getListDeRendasPorTipo();
     return rendasPorTipo;
   }
+  public Map<TipoDTO, List<RendaDTO>> getGroupingPorCategorias(List<RendaDTO> lista){ return lista.stream().collect(groupingBy(RendaDTO::getTipo));}
 
   public Map<TipoDTO, List<RendaDTO>> getTiposRendasPorAno(Integer ano){ return getRendasPorAno().get(ano).getRendas().stream().collect(groupingBy(RendaDTO::getTipo));}
   private Map<Integer, List<RendaDTO>> getListDeRendasPorAno() {return rendas.stream().collect(groupingBy(element -> Integer.parseInt(toFormate(element.getDate(), "YYYY"))));}

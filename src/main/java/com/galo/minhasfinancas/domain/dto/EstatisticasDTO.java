@@ -20,25 +20,18 @@ public class EstatisticasDTO extends DTO {
   private Map<Integer, List<CompraDTO>> comprasPorCategoria = new HashMap<>();
   private final List<Mes> meses = new ArrayList<>(List.of(Mes.values()));
   public EstatisticasDTO() {}
-
-  public EstatisticasDTO(List<CompraDTO> compras) {
-    this.compras = compras;
-  }
-
+  public EstatisticasDTO(List<CompraDTO> compras) {this.compras = compras;}
   public List<CompraDTO> getCompras() {return compras;}
   public void setCompras(List<CompraDTO> compras) {this.compras = compras;}
-
   public List<Mes> getMeses() {return meses;}
 
   public Map<Integer, DespesasDTO> getListDeDespesasPorAno() {
 
-    Map<Integer, List<CompraDTO>> yyyy = compras.stream().collect(groupingBy(element -> Integer.parseInt(toFormate(element.getDate(), "YYYY"))));
-
-    Map<Integer,  DespesasDTO> anoDespesas = new HashMap<>();
-    for ( int ano: yyyy.keySet()) {
-      anoDespesas.put(ano, new DespesasDTO(yyyy.get(ano)));
+    Map<Integer, DespesasDTO> map = new HashMap<>();
+    for ( Integer ano: getComprasPorAno().keySet()) {
+      map.put(ano, getDespesas(getComprasPorAno().get(ano)));
     }
-    return anoDespesas;
+    return map;
   }
 
   public Map<Integer, DespesasDTO> getDespesasPorAno() {
@@ -56,8 +49,8 @@ public class EstatisticasDTO extends DTO {
     return comprasPorCategoria;
   }
 
+  public Map<CategoriaDTO, List<CompraDTO>> getGroupingPorCategorias(List<CompraDTO> lista){ return lista.stream().collect(groupingBy(CompraDTO::getCategoria));}
   public Map<CategoriaDTO, List<CompraDTO>> getCategoriasComprasPorAno(Integer ano){ return getDespesasPorAno().get(ano).getCompras().stream().collect(groupingBy(CompraDTO::getCategoria));}
-
   private Map<Integer, List<CompraDTO>> getListDeComprasPorAno() {return compras.stream().collect(groupingBy(element -> Integer.parseInt(toFormate(element.getDate(), "YYYY"))));}
   public Map<String, List<CompraDTO>> getListDeComprasNoMesDiaAdia(List<CompraDTO> list) {return list.stream().collect(groupingBy(element -> toFormate(element.getDate(), "dd/MM/yyyy")));}
   public DespesasDTO getDespesas(List<CompraDTO> list){return new DespesasDTO(list);}

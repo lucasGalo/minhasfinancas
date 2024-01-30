@@ -1,0 +1,80 @@
+<div>
+    <input type="hidden" th:hidden="true" th:value="${single.donutDataDespesaToJson}" id="donutDataDespesa">
+    <div class="">
+        <div class="row" style="margin-top: 10px; margin-bottom: 10px">
+            <div class="col-sm-6">
+                <select id="selectAnoDespesa" style="text-align: center;" tabindex="-1" aria-hidden="true" class="form-control">
+                    <option th:each="despesasPorAno: ${single.estatisticas.despesasPorAno}"
+                            th:value="${despesasPorAno.key}"
+                            th:text="${despesasPorAno.key}"
+                            th:selected="(${despesasPorAno.key} != null ? ${despesasPorAno.key} == *{single.ano} : false)">
+                    </option>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <select id="selectMesDespesa" style="text-align: center;" tabindex="-1" aria-hidden="true" class="form-control">
+                    <option th:each="despesasPorMes: ${single.estatisticas.despesasPorAno.get(single.ano).getListDeComprasPorMes()}"
+                            th:value="${despesasPorMes.key}"
+                            th:text="${despesasPorMes.key}"
+                            th:selected="(${despesasPorMes.key} != null ? ${despesasPorMes.key} == *{single.estatisticas.getMesAtual()} : false)">
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row col-12" style="margin-left: 5px">
+            <div class="row col-6" style=" border: 1px solid gray; border-radius: 5px;font-family: monospace; font-size: 16px;">
+                <div class="col-6" style=" font-size: 12px;"><span>Despesas</span></div>
+                <div class="col-12" style="text-align: right; color: red">
+                    <span th:text="${'-'+#numbers.formatDecimal(single.getTotalDespesasMes(single.ano,single.mes), 1, 'POINT', 2, 'COMMA')}"></span>
+                    <span style="font-size: 10px;margin-left:-6px">R$</span>
+                </div>
+            </div>
+            <div class="row col-6" style="margin-left: 10px; border: 1px solid gray; border-radius: 5px;font-family: monospace;font-size: 16px;">
+                <div class="col-6" style=" font-size: 12px;"><span>Renda</span></div>
+                <div class="col-12" style="text-align: right;color: #1a9be9">
+                    <span th:text="${'+'+#numbers.formatDecimal(single.getTotalRendaMes(single.ano,single.mes), 1, 'POINT', 2, 'COMMA')}"></span>
+                    <span style="font-size: 10px;margin-left:-6px">R$</span></div>
+                </div>
+            </div>
+
+        <div class="row" style="margin: 5px 5px;border: 1px solid gray;border-radius: 5px;font-family: monospace; font-size: 18px;">
+            <div class="col-6" style=" font-size: 12px;"><span>Balanço</span></div>
+            <div class="col-12" style="text-align: right;">
+                <span th:text="${#numbers.formatDecimal(single.getBalandoMes(single.ano, single.mes), 1, 'POINT', 2, 'COMMA')}"></span>
+                <span style=" font-size: 12px;margin-left:-6px">R$</span></div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="chart-responsive">
+                    <div class="chartjs-size-monitor">
+                        <div class="chartjs-size-monitor-expand">
+                            <div class=""></div>
+                        </div>
+                        <div class="chartjs-size-monitor-shrink">
+                            <div class=""></div>
+                        </div>
+                    </div>
+                    <div id="donut-chart-despesa" style="height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="despesaDonut">
+        <div th:fragment="fragDespesa">
+            <table class="table" style="margin-bottom: 0px !important">
+                <tbody>
+                <tr th:each="it : ${single.estatisticas.getGroupingPorCategorias(single.estatisticas.despesasPorAno.get(single.ano).getListDeComprasPorMes().get(single.mes))}" style="font-family: monospace">
+                    <td th:style="'color:'+${it.key.cor}+';width:5%;text-align:center;'"><ion-icon size="small" th:attr="name=${it.key.icone.value}"></ion-icon></td>
+                    <td style="width:70%"><span th:text="${it.key.nome}"></span></td>
+                    <td style="width:10%;text-align: right;"><span th:text="${#numbers.formatDecimal(single.estatisticas.getDespesas(it.value).getTotal(), 1, 'POINT', 2, 'COMMA')+'R$'}"></span></td>
+                    <td style="width:10%; text-align: center;"><span th:text="${it.key.id}"></span></td>
+                    <td style="width:5%"><i class="fas fa-angle-right text-sm"></i></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

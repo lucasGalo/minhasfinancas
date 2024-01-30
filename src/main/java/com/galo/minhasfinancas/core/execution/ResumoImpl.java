@@ -50,5 +50,4 @@ public class ResumoImpl extends ExecutionAbs {
   public ResumoDTO despesa(int ano){
     return new ResumoDTO(new EstatisticasDTO(custom(compraRepository.findAllUsuarioAndAno(getIdUserLogado(), ano), CompraDTO.class, ResumoDTO.class)), null, ano);
   }
-
 }

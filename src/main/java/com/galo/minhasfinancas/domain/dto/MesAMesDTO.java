@@ -10,28 +10,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.DoubleStream;
 
-public class ResumoDTO extends DTO {
+public class MesAMesDTO extends DTO {
   private EstatisticasDTO estatisticas;
   private ManipulacaoDTO manipulacao;
   private int ano;
-  public ResumoDTO() {}
-  public ResumoDTO(EstatisticasDTO estatisticas, ManipulacaoDTO manipulacao, int ano) {this.estatisticas = estatisticas; this.manipulacao = manipulacao; this.ano = ano;}
+  private String mes;
+  public MesAMesDTO() {}
+  public MesAMesDTO(EstatisticasDTO estatisticas, ManipulacaoDTO manipulacao, int ano) {this.estatisticas = estatisticas; this.manipulacao = manipulacao; this.ano = ano;}
   public EstatisticasDTO getEstatisticas() {return estatisticas;}
   public void setEstatisticas(EstatisticasDTO estatisticas) {this.estatisticas = estatisticas;}
   public ManipulacaoDTO getManipulacao() {return manipulacao;}
   public void setManipulacao(ManipulacaoDTO manipulacao) {this.manipulacao = manipulacao;}
   public int getAno() {return ano;}
   public void setAno(int ano) {this.ano = ano;}
+  public String getMes() {return mes;}
+  public void setMes(String mes) {this.mes = mes;}
+
+  public double getTotalDespesasMes(Integer ano, String mes){return estatisticas.getTotalMes(estatisticas.getDespesasPorAno().get(ano),mes);}
+  public double getTotalRendaMes(Integer ano, String mes){return manipulacao.getTotalMes(manipulacao.getRendasPorAno().get(ano),mes);}
+  public double getBalandoMes(Integer ano, String mes){return getTotalRendaMes(ano, mes) - getTotalDespesasMes(ano, mes);}
+
   public String getPieChartToJson() {return toJson(getPieChartData());}
-  public String getDonutDataDespesaMesToJson(String mes) {
-    DespesasDTO despesasDTO = estatisticas.getDespesasPorAno().get(ano);
-    List<CompraDTO> compraDTOS = despesasDTO.getListDeComprasPorMes().get(mes);
-    estatisticas.getGroupingPorCategorias(compraDTOS);
-
-    return toJson(getDunoutData(estatisticas.getGroupingPorCategorias(compraDTOS)));
-
-  }
-  public String getDonutDataDespesaToJson() {return toJson(getDunoutData(estatisticas.getCategoriasComprasPorAno(ano)));}
+  public String getDonutDataDespesaToJson() {return toJson(getDunoutData());}
   public String getDonutDataRendaToJson() {return toJson(getDunoutDataRenda());}
 
   private List<DonutData> getDunoutDataRenda() {
@@ -52,16 +52,17 @@ public class ResumoDTO extends DTO {
     return datas;
   }
 
-  private List<DonutData> getDunoutData(Map<CategoriaDTO, List<CompraDTO>> list) {
+  private List<DonutData> getDunoutData() {
 
     /* DONUT */
 
+    Map<CategoriaDTO, List<CompraDTO>> categoriasComprasPorAno = estatisticas.getCategoriasComprasPorAno(ano);
     List<DonutData> datas =  new ArrayList<>();
 
-    for (CategoriaDTO id : list.keySet()) {
+    for (CategoriaDTO id : categoriasComprasPorAno.keySet()) {
       datas.add(new DonutData(
               id.getNome(),
-              (int) list.get(id).stream().flatMapToDouble(element -> DoubleStream.of(element.getVlr())).sum(),
+              (int) categoriasComprasPorAno.get(id).stream().flatMapToDouble(element -> DoubleStream.of(element.getVlr())).sum(),
               id.getCor()
       ));
     }

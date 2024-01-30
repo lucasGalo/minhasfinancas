@@ -1,0 +1,54 @@
+<div>
+    <div class="card-header">
+        <h3 class="card-title" style="width: 100%;">
+            <select id="selectAnoRenda" style="text-align: center;" tabindex="-1" aria-hidden="true"
+                    class="form-control">
+                <option th:each="rendasPorAno: ${single.manipulacao.rendasPorAno}"
+                        th:value="${rendasPorAno.key}"
+                        th:text="${rendasPorAno.key}"
+                        th:selected="(${rendasPorAno.key} != null ? ${rendasPorAno.key} == *{single.ano} : false)">
+                </option>
+            </select>
+        </h3>
+    </div>
+
+        <input type="hidden" th:hidden="true" th:value="${single.donutDataRendaToJson}" id="donutDataRenda">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="chart-responsive">
+                        <div class="chartjs-size-monitor">
+                            <div class="chartjs-size-monitor-expand">
+                                <div class=""></div>
+                            </div>
+                            <div class="chartjs-size-monitor-shrink">
+                                <div class=""></div>
+                            </div>
+                        </div>
+                        <div id="donut-chart-renda" style="height: 300px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div id="rendaDonut" >
+        <div th:fragment="fragRenda">
+        <div class="p-0">
+            <div class="row col-12" style="margin: 20px 0px; border-top: 1px solid #6c757d; border-bottom: 1px solid #6c757d;font-family: monospace">
+                <div class="col-9"><span>Total</span></div>
+                <div class="col-3" style="text-align: center;"><span th:text="${#numbers.formatDecimal(single.manipulacao.getTotalAno(single.ano), 1, 'POINT', 2, 'COMMA')+'R$'}"></span></div>
+            </div>
+            <table class="table" style="margin-bottom: 0px !important">
+                <tbody>
+                <tr th:each="it : ${single.manipulacao.getTiposRendasPorAno(single.ano)}" style="font-family: monospace">
+                    <td th:style="'color:'+${it.key.cor}+';width:5%;text-align:center;'"><ion-icon size="small" th:attr="name=${it.key.icone.value}"></ion-icon></td>
+                    <td style="width:70%"><span th:text="${it.key.nome}"></span></td>
+                    <td style="width:10%;text-align: right;"><span th:text="${#numbers.formatDecimal(single.manipulacao.getRendas(it.value).getTotal(), 1, 'POINT', 2, 'COMMA')+'R$'}"></span></td>
+                    <td style="width:10%; text-align: center;"><span th:text="${it.key.id}"></span></td>
+                    <td style="width:5%"><i class="fas fa-angle-right text-sm"></i></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</div>

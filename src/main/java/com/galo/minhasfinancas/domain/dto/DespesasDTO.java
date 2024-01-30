@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 import static com.galo.minhasfinancas.sources.DateUtil.toFormate;
+import static java.util.stream.Collectors.groupingBy;
 
 public class DespesasDTO extends DTO {
   private final List<CompraDTO> compras;
@@ -22,6 +23,7 @@ public class DespesasDTO extends DTO {
     }
     return maps;
   }
+
 
   private List<CompraDTO> getComprasMes(Mes mes){return compras.stream().filter(element -> Integer.parseInt(toFormate(element.getDate(), "MM")) == mes.getCod()).collect(Collectors.toList());}
   public double getQtdCategorias(){return compras.stream().flatMapToDouble(it ->  DoubleStream.of(it.getCategoria().getId())).count();}

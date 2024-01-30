@@ -14,23 +14,20 @@ import static com.galo.minhasfinancas.entrypoint.NamesResouces.RESUMO_URL;
 @RestController
 @RequestMapping(value = "/api" + RESUMO_URL)
 public class ResumoApi extends AbsResource<ResumoDTO, ResumoImpl, ResumoDTO> {
-
-
-
   public ResumoApi(ResumoImpl impl) {
     super(impl);
   }
 
   @RequestMapping(value = "/renda", method = RequestMethod.GET)
-  public String Renda(final @RequestParam("ano") Integer ano, Model map) {
+  public String Renda(final @RequestParam("ano") Integer ano,final @RequestParam("mes") String mes, Model map) {
     ResumoDTO resumo = service.renda(ano);
     return resumo.getDonutDataRendaToJson();
   }
 
   @RequestMapping(value = "/despesa", method = RequestMethod.GET)
-  public String Despesa(final @RequestParam("ano") Integer ano, Model map) {
+  public String Despesa(final @RequestParam("ano") Integer ano,final @RequestParam("mes") String mes, Model map) {
     ResumoDTO resumo = service.despesa(ano);
-    return resumo.getDonutDataDespesaToJson();
+    return resumo.getDonutDataDespesaMesToJson(mes);
   }
 
 }
